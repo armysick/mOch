@@ -1,5 +1,6 @@
 ﻿using System;
 using m0ch.Network;
+using m0ch.Utils;
 
 namespace m0ch
 {
@@ -10,7 +11,10 @@ namespace m0ch
 
             //Networking ntwk = new Networking();
 
+            GZIP t = new GZIP("Marianaqwewqeqweqweqweqweqewqeweqeqweqeqwewqeqwe");
+            t.CompressData();
 
+            Console.WriteLine(t);
 
         }
     }
