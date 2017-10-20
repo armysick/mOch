@@ -1,6 +1,9 @@
 ﻿using System;
-using System.Net.Sockets;
+using System.Text;
 using System.Net;
+using System.Net.Sockets;
+using System.Collections.Generic;
+using m0ch.Utils;
 
 namespace m0ch.Network
 {
@@ -9,13 +12,14 @@ namespace m0ch.Network
 
         private TcpListener sv_port;
         private bool stopListening;
+        private List<Message> inbox;
 
-        public Server(int port)
+        public Server(int port, ref List<Message> inbox)
         {
             sv_port = new TcpListener(IPAddress.Any, port);
             stopListening = false;
+            this.inbox = inbox;
         }
-
 
         public void startServer()
         {
@@ -28,8 +32,18 @@ namespace m0ch.Network
                 TcpClient incomingMessage = sv_port.AcceptTcpClient();
 
                 NetworkStream sn = incomingMessage.GetStream();
+                string dataSent = "";
 
-                Console.WriteLine(sn.ToString());
+                if (sn.CanRead){
+                    byte[] data = new byte[incomingMessage.ReceiveBufferSize];
+
+                    sn.Read(data, 0, incomingMessage.ReceiveBufferSize);
+
+                    dataSent = Encoding.UTF8.GetString(data);
+                }
+
+                Console.WriteLine("Message from {1}: {0}" , dataSent,
+                                  incomingMessage.Client.RemoteEndPoint);
 
                 sn.Close();
             }
@@ -41,5 +55,10 @@ namespace m0ch.Network
             stopListening = true;
             sv_port.Stop();
         }
+
+        public void castMessage(){
+            
+        }
+
     }
 }
