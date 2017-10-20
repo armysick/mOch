@@ -37,6 +37,7 @@
     <Compile Include="Utils\Message.cs" />
     <Compile Include="Network\Server.cs" />
     <Compile Include="Network\Network.cs" />
+    <Compile Include="Utils\Compression.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Network\" />
