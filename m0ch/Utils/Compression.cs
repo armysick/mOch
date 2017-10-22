@@ -49,8 +49,14 @@ namespace m0ch.Utils
         {
             return "Data: " + Convert.ToBase64String(this.finalData);
         }
-    }
 
+
+        public string getStatistics()
+        {
+            return "Converted \"" + this.initialData + "\" to \"" + Convert.ToBase64String(this.finalData) + "\" with a gain of " + getGainPercentage() + "%.";
+        }
+
+    }
 
     /// <summary>
     /// Class responsible for compression and decompressing text using GZIP
@@ -72,16 +78,16 @@ namespace m0ch.Utils
         /// <returns>A sequence of bytes representing the compressed data</returns>
         public override byte[] CompressData()
         {
-            byte[] dataAsBytes = System.Text.Encoding.UTF8.GetBytes(initialData);
-            MemoryStream dataToCompress = new MemoryStream();
+            MemoryStream memOut = new MemoryStream();
+            GZipStream compressionStream = new GZipStream(memOut, CompressionMode.Compress);
+            StreamWriter writingStream = new StreamWriter(compressionStream, System.Text.Encoding.UTF8);
 
-            GZipStream gstream = new GZipStream(dataToCompress,
-                                                CompressionMode.Compress);
+            writingStream.Write(initialData);
 
-            gstream.Write(dataAsBytes, 0, dataAsBytes.Length);
-            gstream.Dispose();
+            writingStream.Close();
+            compressionStream.Close();
 
-            finalData = dataToCompress.ToArray();
+            finalData = memOut.ToArray();
 
             return finalData;
         }
@@ -94,15 +100,17 @@ namespace m0ch.Utils
         public override string DecompressData(byte[] toDecode)
         {
 
-            MemoryStream decompressedData = new MemoryStream(toDecode), result = new MemoryStream();
-            GZipStream gstream = new GZipStream(decompressedData, CompressionMode.Decompress);
+            MemoryStream compressedData = new MemoryStream(toDecode);
+            GZipStream defStream = new GZipStream(compressedData, CompressionMode.Decompress);
+            StreamReader readingStream = new StreamReader(defStream, System.Text.Encoding.UTF8);
 
-            gstream.CopyTo(result);
-            gstream.Dispose();
+            initialData = readingStream.ReadToEnd();
 
-            initialData = Encoding.UTF8.GetString(result.ToArray());
+            readingStream.Dispose();
+            defStream.Dispose();
+            compressedData.Dispose();
 
-            return this.initialData;
+            return initialData;
         }
     }
 
@@ -127,7 +135,19 @@ namespace m0ch.Utils
         public override byte[] CompressData()
         {
 
-            return new byte[2];
+            MemoryStream memOut = new MemoryStream();
+            DeflateStream compressionStream = new DeflateStream(memOut, CompressionMode.Compress);
+            StreamWriter writingStream = new StreamWriter(compressionStream, System.Text.Encoding.UTF8);
+
+            writingStream.Write(initialData);
+
+            writingStream.Close();
+            compressionStream.Close();
+
+            finalData = memOut.ToArray();
+
+            return finalData;
+
         }
 
         /// <summary>
@@ -137,8 +157,17 @@ namespace m0ch.Utils
         /// <returns>Data umcompressed</returns>
         public override string DecompressData(byte[] toDecode)
         {
+            MemoryStream compressedData = new MemoryStream(toDecode);
+            DeflateStream defStream = new DeflateStream(compressedData, CompressionMode.Decompress);
+            StreamReader readingStream = new StreamReader(defStream, System.Text.Encoding.UTF8);
 
-            return "";
+            initialData = readingStream.ReadToEnd();
+
+            readingStream.Dispose();
+            defStream.Dispose();
+            compressedData.Dispose();
+
+            return initialData;
         }
     }
 }
