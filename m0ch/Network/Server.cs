@@ -7,13 +7,24 @@ using m0ch.Utils;
 
 namespace m0ch.Network
 {
+    /// <summary>
+    /// Class responsible for the server's management
+    /// </summary>
     public class Server
     {
-
+        // Server Listener
         private TcpListener sv_port;
+        // Variable responsible for making the thread stop
         private bool stopListening;
+        // Variable shared with Network in order to share messages received by server 
         private List<Message> inbox;
 
+
+        /// <summary>
+        /// Constructor that defines every member of class Server
+        /// </summary>
+        /// <param name="port"></param>
+        /// <param name="inbox"></param>
         public Server(int port, ref List<Message> inbox)
         {
             sv_port = new TcpListener(IPAddress.Any, port);
@@ -21,7 +32,10 @@ namespace m0ch.Network
             this.inbox = inbox;
         }
 
-        public void startServer()
+        /// <summary>
+        /// Function responsible for listning an already defined port
+        /// </summary>
+        public void runServer()
         {
             Console.WriteLine("Server has opened!");
             sv_port.Start();
@@ -50,6 +64,9 @@ namespace m0ch.Network
 
         }
 
+        /// <summary>
+        /// Function used to stop listening. Used to stop server thread
+        /// </summary>
         public void stopServer()
         {
             stopListening = true;

@@ -8,13 +8,20 @@ using System.Text;
 
 namespace m0ch.Network
 {
+    /// <summary>
+    /// Responsible for handling all the network traffic present in this agent
+    /// </summary>
     public class Networking
     {
-
+        // Responsible for storing received messages from server
         private List<Message> receivedMessages;
+        // Object representing server
         private Server listeningServer;
 
-
+        /// <summary>
+        /// Constructor responsible for initializing received messages's list and server's member.
+        /// Already calls .start() function in order to start server's thread.
+        /// </summary>
         public Networking()
         {
             receivedMessages = new List<Message>();
@@ -24,9 +31,12 @@ namespace m0ch.Network
 
         }
 
+        /// <summary>
+        /// Initializes the server's thread
+        /// </summary>
         public void start()
         {
-            Thread serverThread = new Thread(listeningServer.startServer);
+            Thread serverThread = new Thread(listeningServer.runServer);
             serverThread.Start();
 
             /* test server
@@ -44,6 +54,9 @@ namespace m0ch.Network
             */
         }
 
+        /// <summary>
+        /// Function responsible for making the server stop listening
+        /// </summary>
         public void stopServer()
         {
             listeningServer.stopServer();

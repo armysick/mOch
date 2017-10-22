@@ -33,13 +33,14 @@ namespace m0ch.Utils
         /// </summary>
         /// <returns>A sequence of bytes </returns>
         public abstract byte[] CompressData();
+        
         /// <summary>
         /// Function responsible for converting a sequence of bytes that represents a compressed data into uncomprompressed data
         /// </summary>
         /// <param name="toDecode"></param>
         /// <returns></returns>
         public abstract string DecompressData(byte[] toDecode);
-
+        
         /// <summary>
         /// Override function to print compressed data into a readable string
         /// </summary>
@@ -56,8 +57,6 @@ namespace m0ch.Utils
     /// </summary>
     public class GZIP : Compression
     {
-
-
         /// <summary>
         /// Constructor that initializes only the data to compress
         /// </summary>
@@ -104,7 +103,6 @@ namespace m0ch.Utils
     /// </summary>
     public class Deflate : Compression
     {
-
         /// <summary>
         /// Constructor that initializes only the data to compress
         /// </summary>
