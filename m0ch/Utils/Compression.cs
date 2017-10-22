@@ -47,7 +47,7 @@ namespace m0ch.Utils
         /// <returns></returns>
         public override string ToString()
         {
-            return System.Text.Encoding.UTF8.GetString(finalData);
+            return "Data: " + Convert.ToBase64String(this.finalData);
         }
     }
 
@@ -72,14 +72,14 @@ namespace m0ch.Utils
         /// <returns>A sequence of bytes representing the compressed data</returns>
         public override byte[] CompressData()
         {
-            byte[] dataAsBytes = new ASCIIEncoding().GetBytes(initialData);
+            byte[] dataAsBytes = System.Text.Encoding.UTF8.GetBytes(initialData);
             MemoryStream dataToCompress = new MemoryStream();
 
             GZipStream gstream = new GZipStream(dataToCompress,
-                                                CompressionMode.Compress, true);
-            
+                                                CompressionMode.Compress);
+
             gstream.Write(dataAsBytes, 0, dataAsBytes.Length);
-            gstream.Flush();
+            gstream.Dispose();
 
             finalData = dataToCompress.ToArray();
 
@@ -89,12 +89,20 @@ namespace m0ch.Utils
         /// <summary>
         /// Function responsible for decompress data passed by argument
         /// </summary>
-        /// <param name="toDecode"></param>
+        /// <param name="toDecode">A sequence of bytes</param>
         /// <returns>Data umcompressed</returns>
         public override string DecompressData(byte[] toDecode)
         {
 
-            return "";
+            MemoryStream decompressedData = new MemoryStream(toDecode), result = new MemoryStream();
+            GZipStream gstream = new GZipStream(decompressedData, CompressionMode.Decompress);
+
+            gstream.CopyTo(result);
+            gstream.Dispose();
+
+            initialData = Encoding.UTF8.GetString(result.ToArray());
+
+            return this.initialData;
         }
     }
 
