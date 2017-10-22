@@ -11,11 +11,12 @@ namespace m0ch
 
             //Networking ntwk = new Networking();
 
-            GZIP t = new GZIP("Marianaqwewqeqweqweqweqweqewqeweqeqweqeqwewqeqwe");
+            GZIP t = new GZIP("Ola");
             t.CompressData();
 
             Console.WriteLine(t);
 
+            Console.ReadLine();
         }
     }
 }
