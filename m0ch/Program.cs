@@ -9,9 +9,10 @@ namespace m0ch
         public static void Main(string[] args)
         {
 
-            Message _m = new Message(Perfomative.SUBSCRIBE);
+            Lz4 c = new Lz4("ASDAASASDASDASDASDASDASDASDASDASDASASDASDASDASS");
 
 
+            Console.WriteLine(c.DecompressData(c.CompressData()));
             Console.ReadLine();
         }
     }
