@@ -178,6 +178,9 @@ namespace m0ch.Utils
         }
     }
 
+    /// <summary>
+    /// Class responsible for compression and decompressing text using Lz4
+    /// </summary>
     public class Lz4 : Compression 
     {
         /// <summary>
