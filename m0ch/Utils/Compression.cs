@@ -98,7 +98,7 @@ namespace m0ch.Utils
         }
 
         /// <summary>
-        /// Function responsible for decompress data passed by argument
+        /// Function responsible for decompress data passed as argument
         /// </summary>
         /// <param name="toDecode">A sequence of bytes</param>
         /// <returns>Data umcompressed</returns>
@@ -156,7 +156,7 @@ namespace m0ch.Utils
         }
 
         /// <summary>
-        /// Function responsible for decompress data passed by argument
+        /// Function responsible for decompress data passed as argument
         /// </summary>
         /// <param name="toDecode"></param>
         /// <returns>Data umcompressed</returns>
@@ -211,6 +211,11 @@ namespace m0ch.Utils
 
         }
 
+        /// <summary>
+        /// Function responsible for decompress data passed as argument
+        /// </summary>
+        /// <returns>The data compressed</returns>
+        /// <param name="toDecode">Data decompressed</param>
         public override string DecompressData(byte[] toDecode)
         {
 
