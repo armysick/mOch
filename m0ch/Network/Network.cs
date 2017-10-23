@@ -44,11 +44,11 @@ namespace m0ch.Network
             test.Connect("127.0.0.1", 2000);
 
             Message m1 = new Message(Perfomative.REQUEST);
-            m1.addEnvelope(new FIPA.AID(), new FIPA.AID());
+            m1.addEnvelope(new FIPA.AID("",""), new FIPA.AID("",""));
 
 
             Stream stm = test.GetStream();
-            stm.Write(bb, 0,bb.Length);
+            //stm.Write(bb, 0,bb.Length);
             test.Close();
 
         }

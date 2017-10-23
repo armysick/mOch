@@ -4,8 +4,7 @@ using m0ch.Utils;
 
 namespace m0ch.FIPA
 {
-
-
+    
     /*
      * 
      * TODO: Add other attributes for registration.
@@ -30,9 +29,9 @@ namespace m0ch.FIPA
         /// </summary>
         /// <param name="hap_name">Hap name</param>
         /// <param name="address">Address</param>
-        public DF(string hap_name, string address)
+        public DF(string address)
         {
-            dfAID = new AID("df" + hap_name, address);
+            dfAID = new AID("df", address);
             yellowPages = new Dictionary<string, AID>();
         }
 
