@@ -9,14 +9,8 @@ namespace m0ch
         public static void Main(string[] args)
         {
 
-            //Networking ntwk = new Networking();
-            GZIP g = new GZIP("Testing gzip algorithm ");
-            g.DecompressData(g.CompressData());
-            Console.WriteLine(g.getStatistics());
-            
-            Deflate t = new Deflate("Testing deflate algorithm ");
-            t.DecompressData(t.CompressData());
-            Console.WriteLine(t.getStatistics());
+            Message _m = new Message(Perfomative.SUBSCRIBE);
+
 
             Console.ReadLine();
         }

@@ -38,10 +38,12 @@
     <Compile Include="Network\Server.cs" />
     <Compile Include="Network\Network.cs" />
     <Compile Include="Utils\Compression.cs" />
+    <Compile Include="FIPA\AMS.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Network\" />
     <Folder Include="Utils\" />
+    <Folder Include="FIPA\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
