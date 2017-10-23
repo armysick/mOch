@@ -9,10 +9,9 @@ namespace m0ch
         public static void Main(string[] args)
         {
 
-            Lz4 c = new Lz4("ASDAASASDASDASDASDASDASDASDASDASDASASDASDASDASS");
+            Networking net = new Networking();
 
 
-            Console.WriteLine(c.DecompressData(c.CompressData()));
             Console.ReadLine();
         }
     }

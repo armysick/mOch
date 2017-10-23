@@ -37,11 +37,14 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\Message.cs" />
     <Compile Include="Network\Server.cs" />
     <Compile Include="Network\Network.cs" />
     <Compile Include="Utils\Compression.cs" />
     <Compile Include="FIPA\AMS.cs" />
+    <Compile Include="FIPA\AMServices.cs" />
+    <Compile Include="FIPA\DF.cs" />
+    <Compile Include="FIPA\Message.cs" />
+    <Compile Include="Utils\CustomException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Network\" />
