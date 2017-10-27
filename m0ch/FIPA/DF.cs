@@ -35,13 +35,12 @@ namespace m0ch.FIPA
             yellowPages = new Dictionary<string, AID>();
         }
 
-
         /// <summary>
         /// Register the specified agentID on yellow pages
         /// </summary>
         /// <returns>void</returns>
         /// <param name="agentID">Agent identifier</param>
-        public void register(AID agentID)
+        public void Register(AID agentID)
         {
             if (!yellowPages.ContainsValue(agentID))
                 yellowPages.Add(agentID.getName(), agentID);
@@ -54,7 +53,7 @@ namespace m0ch.FIPA
         /// </summary>
         /// <returns>void</returns>
         /// <param name="agentID">Agent unique identifier</param>
-        public void deregister(AID agentID)
+        public void Deregister(AID agentID)
         {
             if (yellowPages.ContainsValue(agentID))
                 yellowPages.Remove(agentID.getName());
@@ -69,7 +68,7 @@ namespace m0ch.FIPA
         /// <returns>void</returns>
         /// <param name="newName">New agent's name</param>
         /// <param name="AIDtoChange">Agent's AID</param>
-        public void modify(string newName, AID AIDtoChange)
+        public void Modify(string newName, AID AIDtoChange)
         {
             if (yellowPages.ContainsKey(AIDtoChange.getName()))
             {
@@ -89,7 +88,7 @@ namespace m0ch.FIPA
         /// </summary>
         /// <returns>Agent's AID</returns>
         /// <param name="name">Agent's name</param>
-        public AID search(string name)
+        public AID Search(string name)
         {
             if (yellowPages.ContainsKey(name))
                 return yellowPages[name];

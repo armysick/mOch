@@ -45,6 +45,7 @@
     <Compile Include="FIPA\DF.cs" />
     <Compile Include="FIPA\Message.cs" />
     <Compile Include="Utils\CustomException.cs" />
+    <Compile Include="FIPA\Description.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Network\" />
