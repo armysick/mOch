@@ -44,19 +44,17 @@ namespace m0ch.Network
             {
 
                 TcpClient incomingMessage = sv_port.AcceptTcpClient();
-
                 NetworkStream sn = incomingMessage.GetStream();
-                string dataSent = "";
 
                 if (sn.CanRead){
                     byte[] data = new byte[incomingMessage.ReceiveBufferSize];
 
                     sn.Read(data, 0, incomingMessage.ReceiveBufferSize);
 
-                    dataSent = Encoding.UTF8.GetString(data);
+                    castMessage(data);
                 }
 
-                Console.WriteLine("Message from {1}: {0}" , dataSent,
+                Console.WriteLine("Message from {0}",
                                   incomingMessage.Client.RemoteEndPoint);
 
                 sn.Close();
@@ -73,8 +71,18 @@ namespace m0ch.Network
             sv_port.Stop();
         }
 
-        public void castMessage(){
-            
+
+        /// <summary>
+        /// Responsible for converting the received message into a readable
+        /// string in order to be treated correctly.
+        /// </summary>
+        /// <param name="data">Data received by server</param>
+        public void castMessage(byte[] data){
+
+            // Not considering other algorithms other than GZIP for now
+            string toDecompress = new GZIP("").DecompressData(data);
+
+            Console.WriteLine(toDecompress);
         }
 
     }

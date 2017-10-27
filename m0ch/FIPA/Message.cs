@@ -129,6 +129,16 @@ namespace m0ch.Utils
             this.inReplyTo = inReplyTo;
             this.replyBy = replyBy;
         }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:m0ch.Utils.Message"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:m0ch.Utils.Message"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[Message] {0} to {1}", this.sender.ToString(), 
+                                 this.receiver.ToString());
+        }
     }
 
 

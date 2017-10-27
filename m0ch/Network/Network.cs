@@ -47,8 +47,10 @@ namespace m0ch.Network
             m1.addEnvelope(new FIPA.AID("",""), new FIPA.AID("",""));
 
 
+            GZIP gzip = new GZIP(m1.ToString());
+
             Stream stm = test.GetStream();
-            //stm.Write(bb, 0,bb.Length);
+            stm.Write(gzip.CompressData(), 0, gzip.CompressData().Length);
             test.Close();
 
         }
