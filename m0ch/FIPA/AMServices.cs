@@ -14,7 +14,6 @@ namespace m0ch.FIPA
 
         public AMServices()
         {
-            df = new DF("127.0.0.1");
         }
     }
 }

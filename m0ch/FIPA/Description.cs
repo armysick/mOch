@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 namespace m0ch.FIPA
 {
     // All possible states for an agent that exists on platform
@@ -62,7 +63,7 @@ namespace m0ch.FIPA
     /// TODO: Yet to be done.
     /// </summary>
     public class APtransportDescription : Description
-    {}
+    { }
 
     /// <summary>
     /// Represents the agent description to either AMS and DF
@@ -114,6 +115,148 @@ namespace m0ch.FIPA
         }
     }
 
+    /// <summary>
+    /// This type of object represents the description that can be registered 
+    /// with the DF yellow-page service.
+    /// </summary>
+    public class DFAgentDescription : Description
+    {
+
+        private ServiceDescription services;
+        private String[] protocol;
+        private String[] ontology;
+        private String[] language;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:m0ch.FIPA.DFAgentDescription"/> class.
+        /// </summary>
+        /// <param name="agentAID">Agent's aid.</param>
+        /// <param name="services">A ServiceDescription Service.</param>
+        /// <param name="protocol">An array of strings representing Protocol.</param>
+        /// <param name="ontology">An array of strings representing Ontology.</param>
+        /// <param name="language">An array of strings representing Language.</param>
+        public DFAgentDescription(AID agentAID = null, 
+                                  ServiceDescription services = null,
+                                  String[] protocol = null,
+                                  String[] ontology = null, 
+                                  String[] language = null)
+        {
+            this.name = agentAID;
+            this.services = services;
+            this.protocol = protocol;
+            this.ontology = ontology;
+            this.language = language;
+        }
+
+        /// <summary>
+        /// Method to retrieve the existent Protocols.
+        /// </summary>
+        /// <returns>The protocols.</returns>
+        public String[] getProtocols()
+        {
+            return this.protocol;
+        }
+
+        /// <summary>
+        /// Method to retrieve the existent Ontologies.
+        /// </summary>
+        /// <returns>The ontology.</returns>
+        public String[] getOntology()
+        {
+            return this.ontology;
+        }
+
+        /// <summary>
+        /// Method to retrieve the known Languages.
+        /// </summary>
+        /// <returns>The language.</returns>
+        public String[] getLanguage()
+        {
+            return this.language;
+        }
+
+    }
+
+    /// <summary>
+    /// This type of object represents the description of each service 
+    /// registered with the DF.
+    /// </summary>
+    public class ServiceDescription : Description
+    {
+        private String type;
+        private String[] protocol;
+        private String[] ontology;
+        private String[] language;
+        private String ownership;
+        private Property[] properties;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:m0ch.FIPA.ServiceDescription"/> class.
+        /// </summary>
+        /// <param name="name">Name.</param>
+        /// <param name="protocol">An array of strings representing Protocol.</param>
+        /// <param name="ontology">An array of strings representing Ontology.</param>
+        /// <param name="language">An array of strings representing Language.</param>
+        /// <param name="ownership">A String representing Ownership.</param>
+        /// <param name="properties">An array of Property representing Properties.</param>
+        public ServiceDescription(String name = null, String[] protocol = null,
+                                  String[] ontology = null,
+                                  String[] language = null,
+                                  String ownership = null, Property[] properties)
+        {
+            this.name = name;
+            this.protocol = protocol;
+            this.ontology = ontology;
+            this.language = language;
+            this.ownership = ownership;
+            this.properties = properties;
+        }
+
+        /// <summary>
+        /// Method to retrieve the existent Protocols.
+        /// </summary>
+        /// <returns>The protocols.</returns>
+        public String[] getProtocols()
+        {
+            return this.protocol;
+        }
+
+        /// <summary>
+        /// Method to retrieve the existent Ontologies.
+        /// </summary>
+        /// <returns>The ontology.</returns>
+        public String[] getOntology()
+        {
+            return this.ontology;
+        }
+
+        /// <summary>
+        /// Method to retrieve the known Languages.
+        /// </summary>
+        /// <returns>The language.</returns>
+        public String[] getLanguage()
+        {
+            return this.language;
+        }
+
+        /// <summary>
+        /// Method to retrieve the agent's ownership.
+        /// </summary>
+        /// <returns>The ownership.</returns>
+        public String getOwnership()
+        {
+            return this.ownership;
+        }
+
+        /// <summary>
+        /// Method to retrieve the agent's properties.
+        /// </summary>
+        /// <returns>The properties.</returns>
+        public Property[] getProperties()
+        {
+            return this.properties;
+        }
+    }
 
     /// <summary>
     /// Class representig the agent platform description
@@ -125,7 +268,7 @@ namespace m0ch.FIPA
         private APtransportDescription transportProfile;
 
         public AgentPlatformDescription(string name, Boolean? dynamicP = null,
-                                        Boolean? mobility = null, 
+                                        Boolean? mobility = null,
                                         APtransportDescription APtrdescr = null)
         {
             this.name = name;
