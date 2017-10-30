@@ -4,46 +4,28 @@ using m0ch.Utils;
 
 namespace m0ch.FIPA
 {
-    
-    /*
-     * 
-     * TODO: Add other attributes for registration.
-     *       Allow modification
-     *       Allow search for different attributes
-     *       http://www.fipa.org/specs/fipa00023/SC00023K.html#_Toc75951013
-     * 
-     * 
-     * 
-     * */
     public class DF
     {
-        // Represents the unique directory facilitator's AID
-        private AID dfAID;
-
         // Variable where all known agents are registerd by DF
-        private Dictionary<string, AID> yellowPages;
-
+        private Dictionary<AID, DFAgentDescription> yellowPages;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:m0ch.FIPA.DF"/> class
+        /// Initializes a new instance of the <see cref="T:m0ch.FIPA.DF"/> class.
         /// </summary>
-        /// <param name="hap_name">Hap name</param>
-        /// <param name="address">Address</param>
-        public DF(string address)
+        public DF()
         {
-            dfAID = new AID("df", address);
-            yellowPages = new Dictionary<string, AID>();
+            yellowPages = new Dictionary<AID, DFAgentDescription>();
         }
 
         /// <summary>
-        /// Register the specified agentID on yellow pages
+        /// Register the specified agent on yellow pages.
         /// </summary>
-        /// <returns>void</returns>
-        /// <param name="agentID">Agent identifier</param>
-        public void Register(AID agentID)
+        /// <returns></returns>
+        /// <param name="agentDescription">Agent description object.</param>
+        public void Register(DFAgentDescription agentDescription)
         {
-            if (!yellowPages.ContainsValue(agentID))
-                yellowPages.Add(agentID.getName(), agentID);
+            if (!yellowPages.ContainsValue(agentDescription))
+                yellowPages.Add(agentDescription, agentDescription);
             else
                 throw new DirectoryFacilitatorException("AgentID already exists");
         }
