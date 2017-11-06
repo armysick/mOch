@@ -25,7 +25,7 @@ namespace m0ch.FIPA
         public void Register(DFAgentDescription agentDescription)
         {
             if (!yellowPages.ContainsValue(agentDescription))
-                yellowPages.Add(agentDescription, agentDescription);
+                yellowPages.Add(agentDescription.GetAgentAID(), agentDescription);
             else
                 throw new DirectoryFacilitatorException("AgentID already exists");
         }
@@ -33,32 +33,31 @@ namespace m0ch.FIPA
         /// <summary>
         /// Deregisters a specified agent from yellow pages.
         /// </summary>
-        /// <returns>void</returns>
-        /// <param name="agentID">Agent unique identifier</param>
-        public void Deregister(AID agentID)
+        /// <returns></returns>
+        /// <param name="agentDescription">Agent DFAgentDescription.</param>
+        public void Deregister(DFAgentDescription agentDescription)
         {
-            if (yellowPages.ContainsValue(agentID))
-                yellowPages.Remove(agentID.getName());
+            if (yellowPages.ContainsValue(agentDescription))
+                yellowPages.Remove(agentDescription.GetAgentAID());
             else
                 throw new DirectoryFacilitatorException("AgentID does not exist");
 
         }
 
         /// <summary>
-        /// Modify an agent's name with the specified AID to the new name
+        /// Modify an agent's description.
         /// </summary>
-        /// <returns>void</returns>
-        /// <param name="newName">New agent's name</param>
-        /// <param name="AIDtoChange">Agent's AID</param>
-        public void Modify(string newName, AID AIDtoChange)
+        /// <returns></returns>
+        /// <param name="oldDescription">Old DFAgentDescription</param>
+        /// <param name="newDescription">New DFAgentDescription.</param>
+        public void Modify(DFAgentDescription oldDescription,
+                           DFAgentDescription newDescription)
         {
-            if (yellowPages.ContainsKey(AIDtoChange.getName()))
+            if (yellowPages.ContainsKey(oldDescription.GetAgentAID()))
             {
                 
-                yellowPages.Remove(AIDtoChange.getName());
-                AIDtoChange.setName(newName);
-
-                yellowPages.Add(newName, AIDtoChange);
+                yellowPages.Remove(oldDescription.GetAgentAID());
+                yellowPages.Add(newDescription.GetAgentAID(), newDescription);
             }
             else
                 throw new DirectoryFacilitatorException("AgentID does not exist");
@@ -70,13 +69,13 @@ namespace m0ch.FIPA
         /// </summary>
         /// <returns>Agent's AID</returns>
         /// <param name="name">Agent's name</param>
-        public AID Search(string name)
+        public DFAgentDescription[] Search(DFAgentDescription agentTemplate,
+                                          SearchConstrains constrains)
         {
-            if (yellowPages.ContainsKey(name))
-                return yellowPages[name];
-            else
-                throw new DirectoryFacilitatorException("Agent with name "
-                                                       + name + " does not exist");
+
+            DFAgentDescription[] allMatchedAgent = new DFAgentDescription[2];
+
+
         }
 
     }

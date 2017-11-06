@@ -211,7 +211,8 @@ namespace m0ch.FIPA
         public ServiceDescription(String name = null, String[] protocol = null,
                                   String[] ontology = null,
                                   String[] language = null,
-                                  String ownership = null, Property[] properties)
+                                  String ownership = null, 
+                                  Property[] properties = null)
         {
             this.name = name;
             this.protocol = protocol;
