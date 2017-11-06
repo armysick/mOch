@@ -1,49 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using m0ch.Utils;
 
 namespace m0ch.FIPA
 {
-    
-    /*
-     * 
-     * TODO: Add other attributes for registration.
-     *       Allow modification
-     *       Allow search for different attributes
-     *       http://www.fipa.org/specs/fipa00023/SC00023K.html#_Toc75951013
-     * 
-     * 
-     * 
-     * */
     public class DF
     {
-        // Represents the unique directory facilitator's AID
-        private AID dfAID;
-
         // Variable where all known agents are registerd by DF
-        private Dictionary<string, AID> yellowPages;
-
+        private Dictionary<AID, DFAgentDescription> yellowPages;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:m0ch.FIPA.DF"/> class
+        /// Initializes a new instance of the <see cref="T:m0ch.FIPA.DF"/> class.
         /// </summary>
-        /// <param name="hap_name">Hap name</param>
-        /// <param name="address">Address</param>
-        public DF(string address)
+        public DF()
         {
-            dfAID = new AID("df", address);
-            yellowPages = new Dictionary<string, AID>();
+            yellowPages = new Dictionary<AID, DFAgentDescription>();
         }
 
         /// <summary>
-        /// Register the specified agentID on yellow pages
+        /// Register the specified agent on yellow pages.
         /// </summary>
-        /// <returns>void</returns>
-        /// <param name="agentID">Agent identifier</param>
-        public void Register(AID agentID)
+        /// <returns></returns>
+        /// <param name="agentDescription">Agent description object.</param>
+        public void Register(DFAgentDescription agentDescription)
         {
-            if (!yellowPages.ContainsValue(agentID))
-                yellowPages.Add(agentID.getName(), agentID);
+            if (!yellowPages.ContainsValue(agentDescription))
+                yellowPages.Add(agentDescription.GetAgentAID(), agentDescription);
             else
                 throw new DirectoryFacilitatorException("AgentID already exists");
         }
@@ -51,32 +32,31 @@ namespace m0ch.FIPA
         /// <summary>
         /// Deregisters a specified agent from yellow pages.
         /// </summary>
-        /// <returns>void</returns>
-        /// <param name="agentID">Agent unique identifier</param>
-        public void Deregister(AID agentID)
+        /// <returns></returns>
+        /// <param name="agentDescription">Agent DFAgentDescription.</param>
+        public void Deregister(DFAgentDescription agentDescription)
         {
-            if (yellowPages.ContainsValue(agentID))
-                yellowPages.Remove(agentID.getName());
+            if (yellowPages.ContainsValue(agentDescription))
+                yellowPages.Remove(agentDescription.GetAgentAID());
             else
                 throw new DirectoryFacilitatorException("AgentID does not exist");
 
         }
 
         /// <summary>
-        /// Modify an agent's name with the specified AID to the new name
+        /// Modify an agent's description.
         /// </summary>
-        /// <returns>void</returns>
-        /// <param name="newName">New agent's name</param>
-        /// <param name="AIDtoChange">Agent's AID</param>
-        public void Modify(string newName, AID AIDtoChange)
+        /// <returns></returns>
+        /// <param name="oldDescription">Old DFAgentDescription</param>
+        /// <param name="newDescription">New DFAgentDescription.</param>
+        public void Modify(DFAgentDescription oldDescription,
+                           DFAgentDescription newDescription)
         {
-            if (yellowPages.ContainsKey(AIDtoChange.getName()))
+            if (yellowPages.ContainsKey(oldDescription.GetAgentAID()))
             {
                 
-                yellowPages.Remove(AIDtoChange.getName());
-                AIDtoChange.setName(newName);
-
-                yellowPages.Add(newName, AIDtoChange);
+                yellowPages.Remove(oldDescription.GetAgentAID());
+                yellowPages.Add(newDescription.GetAgentAID(), newDescription);
             }
             else
                 throw new DirectoryFacilitatorException("AgentID does not exist");
@@ -84,17 +64,43 @@ namespace m0ch.FIPA
         }
 
         /// <summary>
-        /// Search for an agent with a specific name
+        /// Search for DFAgentDescription(s) that match the template passed as argument.
         /// </summary>
-        /// <returns>Agent's AID</returns>
-        /// <param name="name">Agent's name</param>
-        public AID Search(string name)
+        /// <returns>The search.</returns>
+        /// <param name="agentTemplate">DFAgentDescription template</param>
+        /// <param name="constraints">Search constraints.</param>
+        public DFAgentDescription[] Search(DFAgentDescription agentTemplate,
+                                          SearchConstraints constraints)
         {
-            if (yellowPages.ContainsKey(name))
-                return yellowPages[name];
-            else
-                throw new DirectoryFacilitatorException("Agent with name "
-                                                       + name + " does not exist");
+
+            List<DFAgentDescription> allMatchedAgent = new List<DFAgentDescription>();
+
+            foreach(DFAgentDescription existingAgent in this.yellowPages.Values)
+            {
+
+                // Check if agent has the same ID
+                if (agentTemplate.GetAgentAID() == existingAgent.GetAgentAID())
+                {
+                    allMatchedAgent.Add(existingAgent);
+                    continue;
+                }
+
+                // Check if servive is available on one of the agents
+                foreach(ServiceDescription srv in agentTemplate.getServices())
+                {
+                    foreach(ServiceDescription srvYellowPage in existingAgent.getServices())
+                    {
+                        if (srv == srvYellowPage)
+                        {
+                            allMatchedAgent.Add(existingAgent);
+                            continue;
+                        }
+
+                    }
+                }
+            }
+
+            return allMatchedAgent.ToArray();
         }
 
     }

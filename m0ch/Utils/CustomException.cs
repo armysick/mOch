@@ -7,4 +7,11 @@ namespace m0ch.Utils
         { 
         }
     }
+
+    public class MiscException : Exception
+    {
+        public MiscException(string text) :base(text)
+        {            
+        }
+    }
 }

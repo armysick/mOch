@@ -31,8 +31,8 @@ namespace m0ch.FIPA
         /// <param name="agent">AMS Agent description</param>
         public void Register(AMSAgentDescription agent)
         {
-            if (!activeAgents.ContainsKey(agent.getAgentAID()))
-                activeAgents.Add(agent.getAgentAID(), agent);
+            if (!activeAgents.ContainsKey(agent.GetAgentAID()))
+                activeAgents.Add(agent.GetAgentAID(), agent);
         }
 
         /// <summary>
@@ -44,8 +44,8 @@ namespace m0ch.FIPA
         /// <param name="agent">Agent AID</param>
         public void Deregister(AMSAgentDescription agent)
         {
-            if (activeAgents.ContainsKey(agent.getAgentAID()))
-                activeAgents.Remove(agent.getAgentAID());
+            if (activeAgents.ContainsKey(agent.GetAgentAID()))
+                activeAgents.Remove(agent.GetAgentAID());
         }
 
         /// <summary>

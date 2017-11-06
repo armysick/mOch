@@ -33,7 +33,7 @@ namespace m0ch.FIPA
         /// Returns the name of the agent
         /// </summary>
         /// <returns>The name.</returns>
-        public string getName()
+        public string GetName()
         {
             return (string)this.name;
         }
@@ -42,7 +42,7 @@ namespace m0ch.FIPA
         /// Returns the agent's address
         /// </summary>
         /// <returns>The address.</returns>
-        public string getAddress()
+        public string GetAddress()
         {
             return this.address;
         }
@@ -51,7 +51,7 @@ namespace m0ch.FIPA
         /// Sets the name
         /// </summary>
         /// <param name="name">Agent's name</param>
-        public void setName(string name)
+        public void SetName(string name)
         {
             this.name = name;
         }
@@ -91,7 +91,7 @@ namespace m0ch.FIPA
         /// Gets the agent aid
         /// </summary>
         /// <returns>The agent aid</returns>
-        public AID getAgentAID()
+        public AID GetAgentAID()
         {
             return (AID)this.name;
         }
@@ -100,7 +100,7 @@ namespace m0ch.FIPA
         /// Gets the ownership
         /// </summary>
         /// <returns>The ownership</returns>
-        public string getOwnership()
+        public string GetOwnership()
         {
             return this.ownership;
         }
@@ -109,7 +109,7 @@ namespace m0ch.FIPA
         /// Gets the state of the agent
         /// </summary>
         /// <returns>The agent state</returns>
-        public AgentState getAgentState()
+        public AgentState GetAgentState()
         {
             return this.agentState;
         }
@@ -122,7 +122,7 @@ namespace m0ch.FIPA
     public class DFAgentDescription : Description
     {
 
-        private ServiceDescription services;
+        private ServiceDescription[] services;
         private String[] protocol;
         private String[] ontology;
         private String[] language;
@@ -136,7 +136,7 @@ namespace m0ch.FIPA
         /// <param name="ontology">An array of strings representing Ontology.</param>
         /// <param name="language">An array of strings representing Language.</param>
         public DFAgentDescription(AID agentAID = null, 
-                                  ServiceDescription services = null,
+                                  ServiceDescription[] services = null,
                                   String[] protocol = null,
                                   String[] ontology = null, 
                                   String[] language = null)
@@ -148,11 +148,21 @@ namespace m0ch.FIPA
             this.language = language;
         }
 
+
+        /// <summary>
+        /// Method used to retrieve the private member services.
+        /// </summary>
+        /// <returns>The services.</returns>
+        public ServiceDescription[] getServices()
+        {
+            return this.services;
+        }
+
         /// <summary>
         /// Method to retrieve the existent Protocols.
         /// </summary>
         /// <returns>The protocols.</returns>
-        public String[] getProtocols()
+        public String[] GetProtocols()
         {
             return this.protocol;
         }
@@ -161,7 +171,7 @@ namespace m0ch.FIPA
         /// Method to retrieve the existent Ontologies.
         /// </summary>
         /// <returns>The ontology.</returns>
-        public String[] getOntology()
+        public String[] GetOntology()
         {
             return this.ontology;
         }
@@ -170,9 +180,18 @@ namespace m0ch.FIPA
         /// Method to retrieve the known Languages.
         /// </summary>
         /// <returns>The language.</returns>
-        public String[] getLanguage()
+        public String[] GetLanguage()
         {
             return this.language;
+        }
+
+        /// <summary>
+        /// Method that retrieves Agent's AID.
+        /// </summary>
+        /// <returns>Agent's AID</returns>
+        public AID GetAgentAID()
+        {
+            return (AID)this.name;
         }
 
     }
@@ -202,7 +221,8 @@ namespace m0ch.FIPA
         public ServiceDescription(String name = null, String[] protocol = null,
                                   String[] ontology = null,
                                   String[] language = null,
-                                  String ownership = null, Property[] properties)
+                                  String ownership = null, 
+                                  Property[] properties = null)
         {
             this.name = name;
             this.protocol = protocol;
@@ -225,7 +245,7 @@ namespace m0ch.FIPA
         /// Method to retrieve the existent Ontologies.
         /// </summary>
         /// <returns>The ontology.</returns>
-        public String[] getOntology()
+        public String[] GetOntology()
         {
             return this.ontology;
         }
@@ -234,7 +254,7 @@ namespace m0ch.FIPA
         /// Method to retrieve the known Languages.
         /// </summary>
         /// <returns>The language.</returns>
-        public String[] getLanguage()
+        public String[] GetLanguage()
         {
             return this.language;
         }
@@ -243,7 +263,7 @@ namespace m0ch.FIPA
         /// Method to retrieve the agent's ownership.
         /// </summary>
         /// <returns>The ownership.</returns>
-        public String getOwnership()
+        public String GetOwnership()
         {
             return this.ownership;
         }
@@ -252,7 +272,7 @@ namespace m0ch.FIPA
         /// Method to retrieve the agent's properties.
         /// </summary>
         /// <returns>The properties.</returns>
-        public Property[] getProperties()
+        public Property[] GetProperties()
         {
             return this.properties;
         }
@@ -281,7 +301,7 @@ namespace m0ch.FIPA
         /// Gets the dynamic parameter
         /// </summary>
         /// <returns>Dynamic parameter</returns>
-        public Boolean? getDynamic()
+        public Boolean? GetDynamic()
         {
             return this.dynamicR;
         }
@@ -290,7 +310,7 @@ namespace m0ch.FIPA
         /// Gets the mobility parameter
         /// </summary>
         /// <returns>Mobility parameter</returns>
-        public Boolean? getMobility()
+        public Boolean? GetMobility()
         {
             return this.mobility;
         }
@@ -300,7 +320,7 @@ namespace m0ch.FIPA
         /// Gets the AP transport description parameter.
         /// </summary>
         /// <returns>transport-profile</returns>
-        public APtransportDescription getAPtransportDescription()
+        public APtransportDescription GetAPtransportDescription()
         {
             return this.transportProfile;
         }
