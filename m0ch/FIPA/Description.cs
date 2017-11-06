@@ -122,7 +122,7 @@ namespace m0ch.FIPA
     public class DFAgentDescription : Description
     {
 
-        private ServiceDescription services;
+        private ServiceDescription[] services;
         private String[] protocol;
         private String[] ontology;
         private String[] language;
@@ -136,7 +136,7 @@ namespace m0ch.FIPA
         /// <param name="ontology">An array of strings representing Ontology.</param>
         /// <param name="language">An array of strings representing Language.</param>
         public DFAgentDescription(AID agentAID = null, 
-                                  ServiceDescription services = null,
+                                  ServiceDescription[] services = null,
                                   String[] protocol = null,
                                   String[] ontology = null, 
                                   String[] language = null)
@@ -146,6 +146,16 @@ namespace m0ch.FIPA
             this.protocol = protocol;
             this.ontology = ontology;
             this.language = language;
+        }
+
+
+        /// <summary>
+        /// Method used to retrieve the private member services.
+        /// </summary>
+        /// <returns>The services.</returns>
+        public ServiceDescription[] getServices()
+        {
+            return this.services;
         }
 
         /// <summary>

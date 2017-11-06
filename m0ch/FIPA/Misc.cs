@@ -44,6 +44,10 @@ namespace m0ch.FIPA
 
     }
 
+    /// <summary>
+    /// This type of object represents a set of constraints to limit the 
+    /// function of searching within a directory.
+    /// </summary>
     public class SearchConstraints
     {
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using m0ch.Utils;
 
 namespace m0ch.FIPA
@@ -65,17 +64,43 @@ namespace m0ch.FIPA
         }
 
         /// <summary>
-        /// Search for an agent with a specific name
+        /// Search for DFAgentDescription(s) that match the template passed as argument.
         /// </summary>
-        /// <returns>Agent's AID</returns>
-        /// <param name="name">Agent's name</param>
+        /// <returns>The search.</returns>
+        /// <param name="agentTemplate">DFAgentDescription template</param>
+        /// <param name="constraints">Search constraints.</param>
         public DFAgentDescription[] Search(DFAgentDescription agentTemplate,
-                                          SearchConstrains constrains)
+                                          SearchConstraints constraints)
         {
 
-            DFAgentDescription[] allMatchedAgent = new DFAgentDescription[2];
+            List<DFAgentDescription> allMatchedAgent = new List<DFAgentDescription>();
 
+            foreach(DFAgentDescription existingAgent in this.yellowPages.Values)
+            {
 
+                // Check if agent has the same ID
+                if (agentTemplate.GetAgentAID() == existingAgent.GetAgentAID())
+                {
+                    allMatchedAgent.Add(existingAgent);
+                    continue;
+                }
+
+                // Check if servive is available on one of the agents
+                foreach(ServiceDescription srv in agentTemplate.getServices())
+                {
+                    foreach(ServiceDescription srvYellowPage in existingAgent.getServices())
+                    {
+                        if (srv == srvYellowPage)
+                        {
+                            allMatchedAgent.Add(existingAgent);
+                            continue;
+                        }
+
+                    }
+                }
+            }
+
+            return allMatchedAgent.ToArray();
         }
 
     }
