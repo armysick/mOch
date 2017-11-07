@@ -47,6 +47,8 @@
     <Compile Include="Utils\CustomException.cs" />
     <Compile Include="FIPA\Description.cs" />
     <Compile Include="FIPA\Misc.cs" />
+    <Compile Include="Utils\Misc.cs" />
+    <Compile Include="Utils\Config.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Network\" />
