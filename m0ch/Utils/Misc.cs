@@ -14,10 +14,6 @@ namespace m0ch.Utils
         /// </summary>
         public enum COMPRESSION_AlG { GZIP, DEFLATE, L4Z };
 
-        /// <summary>
-        /// Represents user preferece: Speed over compression, compression ratio over speed or default
-        /// </summary>
-        public enum BENCHMARK { SPEED, DEFAULT, COMPRESSION };
 
         /// <summary>
         /// Detectes the operating system that is running on the current machine

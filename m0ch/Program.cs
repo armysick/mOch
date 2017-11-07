@@ -16,6 +16,7 @@ namespace m0ch
             Console.ReadLine();
         }
 
+
         /// <summary>
         /// Makes use of the operating system version to retrieve config file location
         /// </summary>
