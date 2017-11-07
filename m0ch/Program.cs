@@ -11,7 +11,7 @@ namespace m0ch
             // Read, parse, store the config file
             string configFileURL = Misc.GetConfigFileURL();
             Config configFile = new Config(configFileURL);
-            configFile.initParse();
+            configFile.InitParse();
 
             Console.ReadLine();
         }
