@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Net;
+using IniParser;
+using IniParser.Model;
+using System.IO;
+
 
 namespace m0ch.Utils
 {
@@ -38,6 +42,29 @@ namespace m0ch.Utils
         public Config(string fileLocation)
         {
             configFileURL = fileLocation;
+        }
+
+
+
+        public bool initParse()
+        {
+
+            var parser = new FileIniDataParser();
+
+            if (File.Exists(this.configFileURL))
+            {
+                try {
+                    IniData configuration = parser.ReadFile(configFileURL);
+
+
+                    Console.WriteLine(configuration);
+                } catch(Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+
+            return true;
         }
     }
 }
