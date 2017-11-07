@@ -10,12 +10,6 @@ namespace m0ch.Utils
         public enum OS { UNIX, WINDOWS, DEFAULT };
 
         /// <summary>
-        /// Compression algorithms currently implemented
-        /// </summary>
-        public enum COMPRESSION_AlG { GZIP, DEFLATE, L4Z };
-
-
-        /// <summary>
         /// Detectes the operating system that is running on the current machine
         /// </summary>
         /// <returns>The running operating system.</returns>

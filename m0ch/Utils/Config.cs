@@ -21,7 +21,12 @@ namespace m0ch.Utils
         /// <summary>
         /// Stores the IP address of the Agent Platform
         /// </summary>
-        private IPAddress platformIP;
+        private string platformIP;
+
+        /// <summary>
+        /// Stores the port to be used in this agent
+        /// </summary>
+        private int port;
 
         /// <summary>
         /// Stores the compression algorithms understood by the platform
@@ -55,6 +60,12 @@ namespace m0ch.Utils
             {
                 try {
                     IniData configuration = parser.ReadFile(configFileURL);
+
+                    // Agent Platform related
+                    platformIP = configuration["AgentPlatform"]["IP"];
+                    port = Int32.Parse(configuration["AgentPlatform"]["PORT"]);
+
+                    // Compression Algorithms Available
 
 
                     Console.WriteLine(configuration);
