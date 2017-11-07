@@ -72,7 +72,7 @@ namespace m0ch.FIPA
         public DFAgentDescription[] Search(DFAgentDescription agentTemplate,
                                           SearchConstraints constraints)
         {
-
+            // TODO: Make use of constraints
             List<DFAgentDescription> allMatchedAgent = new List<DFAgentDescription>();
 
             foreach(DFAgentDescription existingAgent in this.yellowPages.Values)
