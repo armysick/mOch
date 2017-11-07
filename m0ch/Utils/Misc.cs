@@ -23,7 +23,7 @@ namespace m0ch.Utils
         /// Detectes the operating system that is running on the current machine
         /// </summary>
         /// <returns>The running operating system.</returns>
-        public OS GetRunningOperatingSystem()
+        public static OS GetRunningOperatingSystem()
         {
             OS version = OS.DEFAULT;
 
