@@ -30,11 +30,6 @@ namespace m0ch.Utils
         /// </summary>
         private Misc.COMPRESSION_AlG preferedAlgorithm;
 
-        /// <summary>
-        /// Stores the user's preference
-        /// </summary>
-        private Misc.BENCHMARK preferedQuality;
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:m0ch.Utils.Config"/> class.
@@ -42,7 +37,6 @@ namespace m0ch.Utils
         /// <param name="fileLocation">Location of the config file.</param>
         public Config(string fileLocation)
         {
-
             configFileURL = fileLocation;
         }
     }
