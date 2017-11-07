@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 namespace m0ch.FIPA
 {
 
@@ -65,12 +66,24 @@ namespace m0ch.FIPA
         /// </summary>
         /// <returns>The search.</returns>
         /// <param name="agent">AMSAgentDescription if found or null otherwise</param>
-        public AMSAgentDescription Search(AID agent)
+        public AMSAgentDescription[] Search(AMSAgentDescription agentTmpl, SearchConstraints cstrnts)
         {
-            if (activeAgents.ContainsKey(agent))
-                return activeAgents[agent];
-            else
-                return null;
+
+            List<AMSAgentDescription> similarAgents = new List<AMSAgentDescription>();
+
+            // TODO: Make use of search constraints
+
+            foreach(AMSAgentDescription existingAgent in activeAgents.Values)
+            {
+                if (existingAgent.GetAgentAID() == agentTmpl.GetAgentAID())
+                {
+                    similarAgents.Add(existingAgent);
+                }
+            }
+
+            // TODO: Make use of services and other parameters
+
+            return similarAgents.ToArray();
         }
 
         /// <summary>

@@ -8,11 +8,13 @@ namespace m0ch
     {
         public static void Main(string[] args)
         {
-
-            Networking net = new Networking();
-
+            // Read, parse, store the config file
+            string configFileURL = Misc.GetConfigFileURL();
+            Config configFile = new Config(configFileURL);
+            configFile.InitParse();
 
             Console.ReadLine();
         }
+
     }
 }

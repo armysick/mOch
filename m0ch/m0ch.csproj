@@ -33,6 +33,9 @@
     <Reference Include="LZ4">
       <HintPath>..\packages\lz4net.1.0.15.93\lib\net4-client\LZ4.dll</HintPath>
     </Reference>
+    <Reference Include="INIFileParser">
+      <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -47,6 +50,8 @@
     <Compile Include="Utils\CustomException.cs" />
     <Compile Include="FIPA\Description.cs" />
     <Compile Include="FIPA\Misc.cs" />
+    <Compile Include="Utils\Misc.cs" />
+    <Compile Include="Utils\Config.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Network\" />
