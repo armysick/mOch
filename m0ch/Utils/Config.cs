@@ -33,7 +33,7 @@ namespace m0ch.Utils
         /// <summary>
         /// Stores the port to be used in this agent
         /// </summary>
-        private int port;
+        private int platformPort;
 
         /// <summary>
         /// Stores the compression algorithms understood by the platform
@@ -74,7 +74,7 @@ namespace m0ch.Utils
 
                     // Agent Platform related
                     platformIP = configuration["AgentPlatform"]["IP"];
-                    port = Int32.Parse(configuration["AgentPlatform"]["Port"]);
+                    platformPort = Int32.Parse(configuration["AgentPlatform"]["Port"]);
 
                     // Compression Algorithms Available
                     supportedAlgorithms = configuration["CompressionAlgorithms"]["Compression"]
@@ -93,5 +93,61 @@ namespace m0ch.Utils
 
             return true;
         }
+    
+
+        /// <summary>
+        /// Gets the config URL.
+        /// </summary>
+        /// <returns>The config URL passed in the constructor.</returns>
+        public string GetConfigUrl()
+        {
+            return this.configFileURL;
+        }
+
+        /// <summary>
+        /// Gets the agent platform IP.
+        /// </summary>
+        /// <returns>The agent platform IP present in the configuration file.</returns>
+        public string GetAgentPlatformIP()
+        {
+            return this.platformIP;
+        }
+
+        /// <summary>
+        /// Gets the agent platform port.
+        /// </summary>
+        /// <returns>The agent platform port present in the configuration file.</returns>
+        public int GetAgentPlatformPort()
+        {
+            return this.platformPort;
+        }
+
+        /// <summary>
+        /// Gets the name of the machine.
+        /// </summary>
+        /// <returns>The machine name present in the configuration file.</returns>
+        public string GetMachineName()
+        {
+            return this.machineName;
+        }
+
+        /// <summary>
+        /// Gets the available compression algorithms.
+        /// </summary>
+        /// <returns>The available compression algorithms present in the configuration file.</returns>
+        public List<String> GetAvailableCompressionAlgorithms()
+        {
+            return this.supportedAlgorithms;
+        }
+
+        /// <summary>
+        /// Gets the prefered compression algorithm.
+        /// </summary>
+        /// <returns>The prefered compression algorithm as it is specified in the configuration file.</returns>
+        public String GetPreferedCompressionAlgorithm()
+        {
+            return this.preferedAlgorithm;
+        }
+
     }
 }

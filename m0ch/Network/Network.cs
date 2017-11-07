@@ -20,11 +20,12 @@ namespace m0ch.Network
         /// Constructor responsible for initializing received messages's list and server's member.
         /// Already calls .start() function in order to start server's thread.
         /// </summary>
-        public Networking()
+        /// <param name="Listeningport">Port in configuration file</param>
+        public Networking(int Listeningport)
         {
             receivedMessages = new List<Message>();
 
-            listeningServer = new Server(2000, ref receivedMessages);
+            listeningServer = new Server(Listeningport, ref receivedMessages);
             start();
 
         }

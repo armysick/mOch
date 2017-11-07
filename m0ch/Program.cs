@@ -10,8 +10,11 @@ namespace m0ch
         {
             // Read, parse, store the config file
             string configFileURL = Misc.GetConfigFileURL();
-            Config configFile = new Config(configFileURL);
-            configFile.InitParse();
+            Config _config = new Config(configFileURL);
+            _config.InitParse();
+
+            // Start Networking
+            Networking _net = new Networking(_config.GetAgentPlatformPort());
 
             Console.ReadLine();
         }
