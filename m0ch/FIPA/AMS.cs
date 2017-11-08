@@ -90,7 +90,7 @@ namespace m0ch.FIPA
         /// Returns the Agent Platform Description
         /// </summary>
         /// <returns>AgentPlatformDescription object</returns>
-        public AgentPlatformDescription getDescription()
+        public AgentPlatformDescription GetDescription()
         {
             return this.apDescription;
         }

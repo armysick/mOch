@@ -56,7 +56,7 @@ namespace m0ch.Utils
         }
 
 
-        public string getStatistics()
+        public string GetStatistics()
         {
             return "Converted \"" + this.initialData + "\" to \"" + Convert.ToBase64String(this.finalData) + "\" with a gain of " + getGainPercentage() + "%.";
         }

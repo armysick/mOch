@@ -35,7 +35,7 @@ namespace m0ch.Network
         /// </summary>
         public void start()
         {
-            Thread serverThread = new Thread(listeningServer.runServer);
+            Thread serverThread = new Thread(listeningServer.RunServer);
             serverThread.Start();
 
             //test server
