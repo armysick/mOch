@@ -2,7 +2,7 @@
 ===================
 
 
-
+![travis](https://travis-ci.org/CowTard/mOch.svg?branch=master "Travis Test")
 
 ----------
 
