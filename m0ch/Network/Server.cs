@@ -35,7 +35,7 @@ namespace m0ch.Network
         /// <summary>
         /// Function responsible for listning an already defined port
         /// </summary>
-        public void runServer()
+        public void RunServer()
         {
             Console.WriteLine("Server has opened!");
             sv_port.Start();
