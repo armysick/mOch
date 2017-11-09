@@ -37,8 +37,8 @@ namespace m0ch.Utils
             if (Misc.GetRunningOperatingSystem() == Misc.OperatingSystem.Unix)
                 return @"/Users/" + Environment.UserName + "/.m0ch/config.ini";
             else
-                return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                                  + "/.m0ch/config.ini";
+                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+                                  + "/m0ch/config.ini".Replace('/', System.IO.Path.DirectorySeparatorChar);
 
         }
     }

@@ -16,22 +16,22 @@ namespace m0ch.Network
         /// Stores all the bytes that this agents received by the server thread
         /// </summary>
         private readonly System.Collections.Concurrent.ConcurrentQueue<byte[]> _untreatedInbox;
-        
+
         /// <summary>
         /// Thread responsible adding the received bytes in untreatedInbox.
         /// </summary>
         private Thread _serverThread;
-        
+
         /// <summary>
         /// Responsible for storing messages that were casted from received bytes.
         /// </summary>
         private readonly System.Collections.Concurrent.ConcurrentQueue<Message> _treatedInbox;
-        
+
         /// <summary>
         /// Responsible for casting all the bytes present in the untreatedInbox and store them in the treatedInbox.
         /// </summary>
         private Thread _castingThread;
-        
+
         /// <summary>
         /// Variable that stores all the messages that failed to be sent
         /// </summary>
@@ -110,7 +110,7 @@ namespace m0ch.Network
 
 
                     while (!_untreatedInbox.TryDequeue(out receivedBytes))
-                    {};
+                    { };
 
                     // Added a useless string instead of the message for now
                     // TODO: Serialization of messages to better decoding
@@ -123,7 +123,7 @@ namespace m0ch.Network
                 }
             }
         }
-        
+
         /// <summary>
         /// Function that runs in a thread and tries to send all the messages present in sendInbox.
         /// </summary>
@@ -137,9 +137,8 @@ namespace m0ch.Network
                 MessageContainer messageContainer;
                 while (!_sendInbox.TryDequeue(out messageContainer))
                 {
-                    
+
                     //TODO: To send
-                    
                 }
             }
         }
