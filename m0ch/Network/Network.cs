@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.IO;
 using m0ch.Utils;
@@ -15,32 +15,32 @@ namespace m0ch.Network
         /// <summary>
         /// Stores all the bytes that this agents received by the server thread
         /// </summary>
-        private System.Collections.Concurrent.ConcurrentQueue<byte[]> untreatedInbox;
+        private System.Collections.Concurrent.ConcurrentQueue<byte[]> _untreatedInbox;
         
         /// <summary>
         /// Thread responsible adding the received bytes in untreatedInbox.
         /// </summary>
-        private Thread serverThread;
+        private Thread _serverThread;
         
         /// <summary>
         /// Responsible for storing messages that were casted from received bytes.
         /// </summary>
-        private System.Collections.Concurrent.ConcurrentQueue<Message> treatedInbox;
+        private System.Collections.Concurrent.ConcurrentQueue<Message> _treatedInbox;
         
         /// <summary>
         /// Responsible for casting all the bytes present in the untreatedInbox and store them in the treatedInbox.
         /// </summary>
-        private Thread castingThread;
+        private Thread _castingThread;
         
         /// <summary>
         /// Variable that stores all the messages that failed to be sent
         /// </summary>
-        private System.Collections.Concurrent.ConcurrentQueue<MessageContainer> sendInbox;
+        private System.Collections.Concurrent.ConcurrentQueue<MessageContainer> _sendInbox;
 
         /// <summary>
         /// Responsible for managing all the messages to be sent.
         /// </summary>
-        private Thread responseThread;
+        private Thread _responseThread;
 
         /// <summary>
         /// Object that handles the listening part of the platform
@@ -54,11 +54,11 @@ namespace m0ch.Network
         /// <param name="Listeningport">Port in configuration file</param>
         public Networking(int Listeningport)
         {
-            untreatedInbox = new ConcurrentQueue<byte[]>();
-            treatedInbox = new ConcurrentQueue<Message>();
-            sendInbox = new ConcurrentQueue<MessageContainer>();
+            _untreatedInbox = new ConcurrentQueue<byte[]>();
+            _treatedInbox = new ConcurrentQueue<Message>();
+            _sendInbox = new ConcurrentQueue<MessageContainer>();
 
-            listeningServer = new Server(Listeningport, ref untreatedInbox);
+            listeningServer = new Server(Listeningport, ref _untreatedInbox);
             Start();
         }
 
@@ -67,16 +67,16 @@ namespace m0ch.Network
         /// </summary>
         private void Start()
         {
-            serverThread = new Thread(listeningServer.RunServer);
-            serverThread.Start();
+            _serverThread = new Thread(listeningServer.RunServer);
+            _serverThread.Start();
 
 
-            castingThread = new Thread(CastingMessages);
-            castingThread.Start();
+            _castingThread = new Thread(CastingMessages);
+            _castingThread.Start();
 
 
-            responseThread = new Thread(responseMessages);
-            responseThread.Start();
+            _responseThread = new Thread(responseMessages);
+            _responseThread.Start();
         }
 
         /// <summary>
@@ -86,9 +86,9 @@ namespace m0ch.Network
         {
             listeningServer.stopServer();
 
-            serverThread.Join();
-            castingThread.Join();
-            responseThread.Join();
+            _serverThread.Join();
+            _castingThread.Join();
+            _responseThread.Join();
         }
 
 
@@ -100,7 +100,7 @@ namespace m0ch.Network
         {
             while (true)
             {
-                if (untreatedInbox.Count == 0)
+                if (_untreatedInbox.Count == 0)
                     continue;
 
                 try
@@ -109,13 +109,13 @@ namespace m0ch.Network
                     byte[] receivedBytes;
 
 
-                    while (!untreatedInbox.TryDequeue(out receivedBytes))
+                    while (!_untreatedInbox.TryDequeue(out receivedBytes))
                     {};
 
                     // Added a useless string instead of the message for now
                     // TODO: Serialization of messages to better decoding
 
-                    treatedInbox.Enqueue(new Message(Perfomative.FAILURE));
+                    _treatedInbox.Enqueue(new Message(Perfomative.FAILURE));
                 }
                 catch (Exception e)
                 {
@@ -131,11 +131,11 @@ namespace m0ch.Network
         {
             while (true)
             {
-                if (sendInbox.Count == 0)
+                if (_sendInbox.Count == 0)
                     continue;
 
                 MessageContainer messageContainer;
-                while (!sendInbox.TryDequeue(out messageContainer))
+                while (!_sendInbox.TryDequeue(out messageContainer))
                 {
                     
                     //TODO: To send
