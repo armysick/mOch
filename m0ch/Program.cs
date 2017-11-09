@@ -9,7 +9,7 @@ namespace m0ch
         public static void Main(string[] args)
         {
             // Read, parse, store the config file
-            string configFileURL = Misc.GetConfigFileURL();
+            string configFileURL = Misc.GetConfigFileUrl();
             Config _config = new Config(configFileURL);
             _config.InitParse();
 
