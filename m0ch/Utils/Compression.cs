@@ -11,26 +11,36 @@ namespace m0ch.Utils
     /// </summary>
     public abstract class Compression
     {
-        // InitialData represents the data to be compressed
-        protected string initialData;
-        // FinalData represents the data after be compressed
-        protected byte[] finalData;
-        // GainPercentage represents the gain in percentage of doing the compression. It is calculated by dividing initialData's length by finaldata's length
-        double gainPercentage;
+
+        /// <summary>
+        /// InitialData represents the data to be compressed
+        /// </summary>
+        protected string InitialData;
+        
+        /// <summary>
+        /// FinalData represents the data after be compressed
+        /// </summary>
+        protected byte[] FinalData;
+        
+        /// <summary>
+        /// GainPercentage represents the gain in percentage of doing the compression.
+        /// It is calculated by dividing initialData's length by finaldata's length
+        /// </summary>
+        private double _gainPercentage;
 
         /// <summary>
         /// Retuns the gain percentage of doing this algorithm after actual doing the compression
         /// </summary>
         /// <returns>-1 in case of finalData is not yet defined or gain percentage otherwise</returns>
-        public double getGainPercentage()
+        public double GetGainPercentage()
         {
-            if (finalData == null)
+            if (FinalData == null)
                 return -1;
             else {
-                gainPercentage = 100 * finalData.Length / initialData.Length ;
+                _gainPercentage = 100 * FinalData.Length / InitialData.Length ;
             }
 
-            return gainPercentage;
+            return _gainPercentage;
         }
 
         /// <summary>
@@ -52,13 +62,13 @@ namespace m0ch.Utils
         /// <returns></returns>
         public override string ToString()
         {
-            return "Data: " + Convert.ToBase64String(this.finalData);
+            return "Data: " + Convert.ToBase64String(this.FinalData);
         }
 
 
         public string GetStatistics()
         {
-            return "Converted \"" + this.initialData + "\" to \"" + Convert.ToBase64String(this.finalData) + "\" with a gain of " + getGainPercentage() + "%.";
+            return "Converted \"" + this.InitialData + "\" to \"" + Convert.ToBase64String(this.FinalData) + "\" with a gain of " + GetGainPercentage() + "%.";
         }
 
     }
@@ -74,7 +84,7 @@ namespace m0ch.Utils
         /// <param name="data">String representing the data to compress</param>
         public GZIP(string data)
         {
-            initialData = data;
+            InitialData = data;
         }
 
         /// <summary>
@@ -87,14 +97,14 @@ namespace m0ch.Utils
             GZipStream compressionStream = new GZipStream(memOut, CompressionMode.Compress);
             StreamWriter writingStream = new StreamWriter(compressionStream, System.Text.Encoding.UTF8);
 
-            writingStream.Write(initialData);
+            writingStream.Write(InitialData);
 
             writingStream.Close();
             compressionStream.Close();
 
-            finalData = memOut.ToArray();
+            FinalData = memOut.ToArray();
 
-            return finalData;
+            return FinalData;
         }
 
         /// <summary>
@@ -109,13 +119,13 @@ namespace m0ch.Utils
             GZipStream defStream = new GZipStream(compressedData, CompressionMode.Decompress);
             StreamReader readingStream = new StreamReader(defStream, System.Text.Encoding.UTF8);
 
-            initialData = readingStream.ReadToEnd();
+            InitialData = readingStream.ReadToEnd();
 
             readingStream.Dispose();
             defStream.Dispose();
             compressedData.Dispose();
 
-            return initialData;
+            return InitialData;
         }
     }
 
@@ -130,7 +140,7 @@ namespace m0ch.Utils
         /// <param name="data">String representing the data to compress</param>
         public Deflate(string data)
         {
-            initialData = data;
+            InitialData = data;
         }
 
         /// <summary>
@@ -144,14 +154,14 @@ namespace m0ch.Utils
             DeflateStream compressionStream = new DeflateStream(memOut, CompressionMode.Compress);
             StreamWriter writingStream = new StreamWriter(compressionStream, System.Text.Encoding.UTF8);
 
-            writingStream.Write(initialData);
+            writingStream.Write(InitialData);
 
             writingStream.Close();
             compressionStream.Close();
 
-            finalData = memOut.ToArray();
+            FinalData = memOut.ToArray();
 
-            return finalData;
+            return FinalData;
 
         }
 
@@ -168,13 +178,13 @@ namespace m0ch.Utils
             StreamReader readingStream = new StreamReader(defStream, 
                                                           Encoding.UTF8);
 
-            initialData = readingStream.ReadToEnd();
+            InitialData = readingStream.ReadToEnd();
 
             readingStream.Dispose();
             defStream.Dispose();
             compressedData.Dispose();
 
-            return initialData;
+            return InitialData;
         }
     }
 
@@ -189,7 +199,7 @@ namespace m0ch.Utils
         /// <param name="data">Text to be compressed</param>
         public Lz4(string data)
         {
-            this.initialData = data;
+            this.InitialData = data;
         }
 
         /// <summary>
@@ -203,14 +213,14 @@ namespace m0ch.Utils
             LZ4Stream lz4Strm = new LZ4Stream(memOut, LZ4StreamMode.Compress);
             StreamWriter inputData = new StreamWriter(lz4Strm, Encoding.UTF8);
 
-            inputData.Write(initialData);
+            inputData.Write(InitialData);
 
             inputData.Dispose();
             lz4Strm.Dispose();
 
-            finalData = memOut.ToArray();
+            FinalData = memOut.ToArray();
             memOut.Dispose();
-            return finalData;
+            return FinalData;
 
         }
 
@@ -226,13 +236,13 @@ namespace m0ch.Utils
             LZ4Stream lz4Strm = new LZ4Stream(memIn, LZ4StreamMode.Decompress);
             StreamReader outData = new StreamReader(lz4Strm);
 
-            initialData = outData.ReadToEnd();
+            InitialData = outData.ReadToEnd();
 
             outData.Dispose();
             lz4Strm.Dispose();
             memIn.Dispose();
 
-            return initialData;
+            return InitialData;
         }
 
 

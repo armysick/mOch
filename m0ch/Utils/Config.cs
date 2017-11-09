@@ -18,33 +18,33 @@ namespace m0ch.Utils
         /// <summary>
         /// Location of the config file in the disk
         /// </summary>
-        private readonly string configFileURL;
+        private readonly string _configFileUrl;
 
         /// <summary>
         /// Name to be used as AID's name
         /// </summary>
-        private string machineName;
+        private string _machineName;
 
         /// <summary>
         /// Stores the IP address of the Agent Platform
         /// </summary>
-        private string platformIP;
+        private string _platformIp;
 
         /// <summary>
         /// Stores the port to be used in this agent
         /// </summary>
-        private int platformPort;
+        private int _platformPort;
 
         /// <summary>
         /// Stores the compression algorithms understood by the platform
         /// </summary>
-        private List<string> supportedAlgorithms;
+        private List<string> _supportedAlgorithms;
 
 
         /// <summary>
         /// Stores the prefered algorithm of the platform
         /// </summary>
-        private string preferedAlgorithm;
+        private string _preferedAlgorithm;
 
 
         /// <summary>
@@ -53,8 +53,8 @@ namespace m0ch.Utils
         /// <param name="fileLocation">Location of the config file.</param>
         public Config(string fileLocation)
         {
-            configFileURL = fileLocation;
-            supportedAlgorithms = new List<string>();
+            _configFileUrl = fileLocation;
+            _supportedAlgorithms = new List<string>();
         }
 
 
@@ -67,22 +67,22 @@ namespace m0ch.Utils
 
             var parser = new FileIniDataParser();
 
-            if (File.Exists(this.configFileURL))
+            if (File.Exists(this._configFileUrl))
             {
                 try {
-                    IniData configuration = parser.ReadFile(configFileURL);
+                    IniData configuration = parser.ReadFile(_configFileUrl);
 
                     // Agent Platform related
-                    platformIP = configuration["AgentPlatform"]["IP"];
-                    platformPort = Int32.Parse(configuration["AgentPlatform"]["Port"]);
+                    _platformIp = configuration["AgentPlatform"]["IP"];
+                    _platformPort = Int32.Parse(configuration["AgentPlatform"]["Port"]);
 
                     // Compression Algorithms Available
-                    supportedAlgorithms = configuration["CompressionAlgorithms"]["Compression"]
+                    _supportedAlgorithms = configuration["CompressionAlgorithms"]["Compression"]
                         .Split(',').ToList();
 
                     // User preferences related
-                    preferedAlgorithm = configuration["Preferences"]["CompressionAlgorithm"];
-                    machineName = configuration["Preferences"]["MachineName"];
+                    _preferedAlgorithm = configuration["Preferences"]["CompressionAlgorithm"];
+                    _machineName = configuration["Preferences"]["MachineName"];
 
                 } catch(Exception ex)
                 {
@@ -101,7 +101,7 @@ namespace m0ch.Utils
         /// <returns>The config URL passed in the constructor.</returns>
         public string GetConfigUrl()
         {
-            return this.configFileURL;
+            return this._configFileUrl;
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace m0ch.Utils
         /// <returns>The agent platform IP present in the configuration file.</returns>
         public string GetAgentPlatformIP()
         {
-            return this.platformIP;
+            return this._platformIp;
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace m0ch.Utils
         /// <returns>The agent platform port present in the configuration file.</returns>
         public int GetAgentPlatformPort()
         {
-            return this.platformPort;
+            return this._platformPort;
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace m0ch.Utils
         /// <returns>The machine name present in the configuration file.</returns>
         public string GetMachineName()
         {
-            return this.machineName;
+            return this._machineName;
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace m0ch.Utils
         /// <returns>The available compression algorithms present in the configuration file.</returns>
         public List<String> GetAvailableCompressionAlgorithms()
         {
-            return this.supportedAlgorithms;
+            return this._supportedAlgorithms;
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace m0ch.Utils
         /// <returns>The prefered compression algorithm as it is specified in the configuration file.</returns>
         public String GetPreferedCompressionAlgorithm()
         {
-            return this.preferedAlgorithm;
+            return this._preferedAlgorithm;
         }
 
     }

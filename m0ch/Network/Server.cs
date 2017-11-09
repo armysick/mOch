@@ -14,23 +14,22 @@ namespace m0ch.Network
     public class Server
     {
         // Server Listener
-        private TcpListener sv_port;
+        private readonly TcpListener _svPort;
         // Variable responsible for making the thread stop
-        private bool stopListening;
+        private bool _stopListening;
         // Variable shared with Network in order to share the bytes received by server 
-        private ConcurrentQueue<byte[]> inbox;
+        private readonly ConcurrentQueue<byte[]> _inbox;
 
 
         /// <summary>
         /// Constructor that defines every member of class Server
         /// </summary>
-        /// <param name="port"></param>
-        /// <param name="inbox"></param>
+        /// <param name="untreatedInbox">Inbox where server should add the received bytes</param>
         public Server(int port, ref ConcurrentQueue<byte[]> untreatedInbox)
         {
-            sv_port = new TcpListener(IPAddress.Any, port);
-            stopListening = false;
-            this.inbox = untreatedInbox;
+            _svPort = new TcpListener(IPAddress.Any, port);
+            _stopListening = false;
+            this._inbox = untreatedInbox;
         }
 
         /// <summary>
@@ -39,12 +38,12 @@ namespace m0ch.Network
         public void RunServer()
         {
             Console.WriteLine("Server has opened!");
-            sv_port.Start();
+            _svPort.Start();
 
-            while (!stopListening)
+            while (!_stopListening)
             {
 
-                TcpClient incomingMessage = sv_port.AcceptTcpClient();
+                TcpClient incomingMessage = _svPort.AcceptTcpClient();
                 NetworkStream sn = incomingMessage.GetStream();
 
                 if (sn.CanRead){
@@ -53,7 +52,7 @@ namespace m0ch.Network
                     sn.Read(data, 0, incomingMessage.ReceiveBufferSize);
 
                     //castMessage(data);
-                    this.inbox.Enqueue(data);
+                    this._inbox.Enqueue(data);
                 }
 
                 Console.WriteLine("Message from {0}",
@@ -67,10 +66,10 @@ namespace m0ch.Network
         /// <summary>
         /// Function used to stop listening. Used to stop server thread
         /// </summary>
-        public void stopServer()
+        public void StopServer()
         {
-            stopListening = true;
-            sv_port.Stop();
+            _stopListening = true;
+            _svPort.Stop();
         }
 
 
@@ -79,7 +78,7 @@ namespace m0ch.Network
         /// string in order to be treated correctly.
         /// </summary>
         /// <param name="data">Data received by server</param>
-        public void castMessage(byte[] data){
+        public void CastMessage(byte[] data){
 
             // Not considering other algorithms other than GZIP for now
             string toDecompress = new GZIP("").DecompressData(data);

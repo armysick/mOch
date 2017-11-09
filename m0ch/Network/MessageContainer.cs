@@ -12,12 +12,12 @@ namespace m0ch.Network
         /// <summary>
         /// Stored Message.
         /// </summary>
-        private Message message;
+        private readonly Message _message;
 
         /// <summary>
         /// Number of failed attempts.
         /// </summary>
-        private int sendAttempts;
+        private int _sendAttempts;
 
 
         /// <summary>
@@ -26,8 +26,8 @@ namespace m0ch.Network
         /// <param name="message">Message</param>
         public MessageContainer(Message message)
         {
-            this.message = message;
-            this.sendAttempts = 0;
+            this._message = message;
+            this._sendAttempts = 0;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace m0ch.Network
         /// <returns></returns>
         public Message GetMessage()
         {
-            return this.message;
+            return this._message;
         }
 
         /// <summary>
@@ -45,9 +45,16 @@ namespace m0ch.Network
         /// <returns></returns>
         public int GetSendAttemps()
         {
-            return this.sendAttempts;
+            return this._sendAttempts;
         }
-        
+
+        /// <summary>
+        /// Increases the send attempts of this particular message.
+        /// </summary>
+        public void IncreaseNumberofAttempts()
+        {
+            this._sendAttempts++;
+        }
         
     }
 }

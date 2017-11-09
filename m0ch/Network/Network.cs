@@ -15,7 +15,7 @@ namespace m0ch.Network
         /// <summary>
         /// Stores all the bytes that this agents received by the server thread
         /// </summary>
-        private System.Collections.Concurrent.ConcurrentQueue<byte[]> _untreatedInbox;
+        private readonly System.Collections.Concurrent.ConcurrentQueue<byte[]> _untreatedInbox;
         
         /// <summary>
         /// Thread responsible adding the received bytes in untreatedInbox.
@@ -25,7 +25,7 @@ namespace m0ch.Network
         /// <summary>
         /// Responsible for storing messages that were casted from received bytes.
         /// </summary>
-        private System.Collections.Concurrent.ConcurrentQueue<Message> _treatedInbox;
+        private readonly System.Collections.Concurrent.ConcurrentQueue<Message> _treatedInbox;
         
         /// <summary>
         /// Responsible for casting all the bytes present in the untreatedInbox and store them in the treatedInbox.
@@ -35,7 +35,7 @@ namespace m0ch.Network
         /// <summary>
         /// Variable that stores all the messages that failed to be sent
         /// </summary>
-        private System.Collections.Concurrent.ConcurrentQueue<MessageContainer> _sendInbox;
+        private readonly System.Collections.Concurrent.ConcurrentQueue<MessageContainer> _sendInbox;
 
         /// <summary>
         /// Responsible for managing all the messages to be sent.
@@ -45,20 +45,20 @@ namespace m0ch.Network
         /// <summary>
         /// Object that handles the listening part of the platform
         /// </summary>
-        private Server listeningServer;
+        private readonly Server _listeningServer;
 
         /// <summary>
         /// Constructor responsible for initializing received messages's list and server's member.
         /// Already calls .start() function in order to start server's thread.
         /// </summary>
-        /// <param name="Listeningport">Port in configuration file</param>
-        public Networking(int Listeningport)
+        /// <param name="listeningport">Port in configuration file</param>
+        public Networking(int listeningport)
         {
             _untreatedInbox = new ConcurrentQueue<byte[]>();
             _treatedInbox = new ConcurrentQueue<Message>();
             _sendInbox = new ConcurrentQueue<MessageContainer>();
 
-            listeningServer = new Server(Listeningport, ref _untreatedInbox);
+            _listeningServer = new Server(listeningport, ref _untreatedInbox);
             Start();
         }
 
@@ -67,7 +67,7 @@ namespace m0ch.Network
         /// </summary>
         private void Start()
         {
-            _serverThread = new Thread(listeningServer.RunServer);
+            _serverThread = new Thread(_listeningServer.RunServer);
             _serverThread.Start();
 
 
@@ -75,7 +75,7 @@ namespace m0ch.Network
             _castingThread.Start();
 
 
-            _responseThread = new Thread(responseMessages);
+            _responseThread = new Thread(ResponseMessages);
             _responseThread.Start();
         }
 
@@ -84,7 +84,7 @@ namespace m0ch.Network
         /// </summary>
         public void StopServer()
         {
-            listeningServer.stopServer();
+            _listeningServer.StopServer();
 
             _serverThread.Join();
             _castingThread.Join();
@@ -115,7 +115,7 @@ namespace m0ch.Network
                     // Added a useless string instead of the message for now
                     // TODO: Serialization of messages to better decoding
 
-                    _treatedInbox.Enqueue(new Message(Perfomative.FAILURE));
+                    _treatedInbox.Enqueue(new Message(Perfomative.Failure));
                 }
                 catch (Exception e)
                 {
@@ -127,7 +127,7 @@ namespace m0ch.Network
         /// <summary>
         /// Function that runs in a thread and tries to send all the messages present in sendInbox.
         /// </summary>
-        private void responseMessages()
+        private void ResponseMessages()
         {
             while (true)
             {

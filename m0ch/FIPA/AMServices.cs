@@ -7,10 +7,10 @@ namespace m0ch.FIPA
     public class AMServices
     {
         // Object representing the agent management system
-        private AMS ams;
+        private AMS _ams;
 
         // Object representing the directory facilitator
-        private DF df;
+        private DF _df;
 
         public AMServices()
         {

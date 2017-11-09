@@ -6,14 +6,14 @@ namespace m0ch.FIPA
     public class DF
     {
         // Variable where all known agents are registerd by DF
-        private Dictionary<AID, DFAgentDescription> yellowPages;
+        private Dictionary<AID, DFAgentDescription> _yellowPages;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:m0ch.FIPA.DF"/> class.
         /// </summary>
         public DF()
         {
-            yellowPages = new Dictionary<AID, DFAgentDescription>();
+            _yellowPages = new Dictionary<AID, DFAgentDescription>();
         }
 
         /// <summary>
@@ -23,8 +23,8 @@ namespace m0ch.FIPA
         /// <param name="agentDescription">Agent description object.</param>
         public void Register(DFAgentDescription agentDescription)
         {
-            if (!yellowPages.ContainsValue(agentDescription))
-                yellowPages.Add(agentDescription.GetAgentAID(), agentDescription);
+            if (!_yellowPages.ContainsValue(agentDescription))
+                _yellowPages.Add(agentDescription.GetAgentAID(), agentDescription);
             else
                 throw new DirectoryFacilitatorException("AgentID already exists");
         }
@@ -36,8 +36,8 @@ namespace m0ch.FIPA
         /// <param name="agentDescription">Agent DFAgentDescription.</param>
         public void Deregister(DFAgentDescription agentDescription)
         {
-            if (yellowPages.ContainsValue(agentDescription))
-                yellowPages.Remove(agentDescription.GetAgentAID());
+            if (_yellowPages.ContainsValue(agentDescription))
+                _yellowPages.Remove(agentDescription.GetAgentAID());
             else
                 throw new DirectoryFacilitatorException("AgentID does not exist");
 
@@ -52,11 +52,11 @@ namespace m0ch.FIPA
         public void Modify(DFAgentDescription oldDescription,
                            DFAgentDescription newDescription)
         {
-            if (yellowPages.ContainsKey(oldDescription.GetAgentAID()))
+            if (_yellowPages.ContainsKey(oldDescription.GetAgentAID()))
             {
                 
-                yellowPages.Remove(oldDescription.GetAgentAID());
-                yellowPages.Add(newDescription.GetAgentAID(), newDescription);
+                _yellowPages.Remove(oldDescription.GetAgentAID());
+                _yellowPages.Add(newDescription.GetAgentAID(), newDescription);
             }
             else
                 throw new DirectoryFacilitatorException("AgentID does not exist");
@@ -75,7 +75,7 @@ namespace m0ch.FIPA
             // TODO: Make use of constraints
             List<DFAgentDescription> allMatchedAgent = new List<DFAgentDescription>();
 
-            foreach(DFAgentDescription existingAgent in this.yellowPages.Values)
+            foreach(DFAgentDescription existingAgent in this._yellowPages.Values)
             {
 
                 // Check if agent has the same ID
@@ -86,9 +86,9 @@ namespace m0ch.FIPA
                 }
 
                 // Check if servive is available on one of the agents
-                foreach(ServiceDescription srv in agentTemplate.getServices())
+                foreach(ServiceDescription srv in agentTemplate.GetServices())
                 {
-                    foreach(ServiceDescription srvYellowPage in existingAgent.getServices())
+                    foreach(ServiceDescription srvYellowPage in existingAgent.GetServices())
                     {
                         if (srv == srvYellowPage)
                         {

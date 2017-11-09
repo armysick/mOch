@@ -7,7 +7,7 @@ namespace m0ch.FIPA
 
     public abstract class Description
     {
-        protected object name;
+        protected object Name;
 
     }
 
@@ -16,7 +16,7 @@ namespace m0ch.FIPA
     /// </summary>
     public class AID : Description
     {
-        private string address;
+        private string _address;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:m0ch.FIPA.AID"/> class.
@@ -25,8 +25,8 @@ namespace m0ch.FIPA
         /// <param name="address">Agent's address</param>
         public AID(string name, string address)
         {
-            this.name = name;
-            this.address = address;
+            this.Name = name;
+            this._address = address;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace m0ch.FIPA
         /// <returns>The name.</returns>
         public string GetName()
         {
-            return (string)this.name;
+            return (string)this.Name;
         }
 
         /// <summary>s
@@ -44,7 +44,7 @@ namespace m0ch.FIPA
         /// <returns>The address.</returns>
         public string GetAddress()
         {
-            return this.address;
+            return this._address;
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace m0ch.FIPA
         /// <param name="name">Agent's name</param>
         public void SetName(string name)
         {
-            this.name = name;
+            this.Name = name;
         }
 
     }
@@ -70,8 +70,8 @@ namespace m0ch.FIPA
     /// </summary>
     public class AMSAgentDescription : Description
     {
-        private string ownership;
-        private AgentState agentState;
+        private string _ownership;
+        private AgentState _agentState;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:m0ch.FIPA.AgentDescription"/> class
@@ -82,9 +82,9 @@ namespace m0ch.FIPA
         public AMSAgentDescription(AID agentAID = null, string ownership = null,
                                 AgentState agentState = AgentState.NONE)
         {
-            this.name = agentAID;
-            this.ownership = ownership;
-            this.agentState = agentState;
+            this.Name = agentAID;
+            this._ownership = ownership;
+            this._agentState = agentState;
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace m0ch.FIPA
         /// <returns>The agent aid</returns>
         public AID GetAgentAID()
         {
-            return (AID)this.name;
+            return (AID)this.Name;
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace m0ch.FIPA
         /// <returns>The ownership</returns>
         public string GetOwnership()
         {
-            return this.ownership;
+            return this._ownership;
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace m0ch.FIPA
         /// <returns>The agent state</returns>
         public AgentState GetAgentState()
         {
-            return this.agentState;
+            return this._agentState;
         }
     }
 
@@ -122,10 +122,10 @@ namespace m0ch.FIPA
     public class DFAgentDescription : Description
     {
 
-        private ServiceDescription[] services;
-        private String[] protocol;
-        private String[] ontology;
-        private String[] language;
+        private ServiceDescription[] _services;
+        private String[] _protocol;
+        private String[] _ontology;
+        private String[] _language;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:m0ch.FIPA.DFAgentDescription"/> class.
@@ -141,11 +141,11 @@ namespace m0ch.FIPA
                                   String[] ontology = null, 
                                   String[] language = null)
         {
-            this.name = agentAID;
-            this.services = services;
-            this.protocol = protocol;
-            this.ontology = ontology;
-            this.language = language;
+            this.Name = agentAID;
+            this._services = services;
+            this._protocol = protocol;
+            this._ontology = ontology;
+            this._language = language;
         }
 
 
@@ -153,9 +153,9 @@ namespace m0ch.FIPA
         /// Method used to retrieve the private member services.
         /// </summary>
         /// <returns>The services.</returns>
-        public ServiceDescription[] getServices()
+        public ServiceDescription[] GetServices()
         {
-            return this.services;
+            return this._services;
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace m0ch.FIPA
         /// <returns>The protocols.</returns>
         public String[] GetProtocols()
         {
-            return this.protocol;
+            return this._protocol;
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace m0ch.FIPA
         /// <returns>The ontology.</returns>
         public String[] GetOntology()
         {
-            return this.ontology;
+            return this._ontology;
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace m0ch.FIPA
         /// <returns>The language.</returns>
         public String[] GetLanguage()
         {
-            return this.language;
+            return this._language;
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace m0ch.FIPA
         /// <returns>Agent's AID</returns>
         public AID GetAgentAID()
         {
-            return (AID)this.name;
+            return (AID)this.Name;
         }
 
     }
@@ -202,12 +202,12 @@ namespace m0ch.FIPA
     /// </summary>
     public class ServiceDescription : Description
     {
-        private String type;
-        private String[] protocol;
-        private String[] ontology;
-        private String[] language;
-        private String ownership;
-        private Property[] properties;
+        private String _type;
+        private String[] _protocol;
+        private String[] _ontology;
+        private String[] _language;
+        private String _ownership;
+        private Property[] _properties;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:m0ch.FIPA.ServiceDescription"/> class.
@@ -224,21 +224,21 @@ namespace m0ch.FIPA
                                   String ownership = null, 
                                   Property[] properties = null)
         {
-            this.name = name;
-            this.protocol = protocol;
-            this.ontology = ontology;
-            this.language = language;
-            this.ownership = ownership;
-            this.properties = properties;
+            this.Name = name;
+            this._protocol = protocol;
+            this._ontology = ontology;
+            this._language = language;
+            this._ownership = ownership;
+            this._properties = properties;
         }
 
         /// <summary>
         /// Method to retrieve the existent Protocols.
         /// </summary>
         /// <returns>The protocols.</returns>
-        public String[] getProtocols()
+        public String[] GetProtocols()
         {
-            return this.protocol;
+            return this._protocol;
         }
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace m0ch.FIPA
         /// <returns>The ontology.</returns>
         public String[] GetOntology()
         {
-            return this.ontology;
+            return this._ontology;
         }
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace m0ch.FIPA
         /// <returns>The language.</returns>
         public String[] GetLanguage()
         {
-            return this.language;
+            return this._language;
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace m0ch.FIPA
         /// <returns>The ownership.</returns>
         public String GetOwnership()
         {
-            return this.ownership;
+            return this._ownership;
         }
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace m0ch.FIPA
         /// <returns>The properties.</returns>
         public Property[] GetProperties()
         {
-            return this.properties;
+            return this._properties;
         }
     }
 
@@ -283,18 +283,18 @@ namespace m0ch.FIPA
     /// </summary>
     public class AgentPlatformDescription : Description
     {
-        private Boolean? dynamicR;
-        private Boolean? mobility;
-        private APtransportDescription transportProfile;
+        private Boolean? _dynamicR;
+        private Boolean? _mobility;
+        private APtransportDescription _transportProfile;
 
         public AgentPlatformDescription(string name, Boolean? dynamicP = null,
                                         Boolean? mobility = null,
                                         APtransportDescription APtrdescr = null)
         {
-            this.name = name;
-            this.dynamicR = dynamicP;
-            this.mobility = mobility;
-            this.transportProfile = APtrdescr;
+            this.Name = name;
+            this._dynamicR = dynamicP;
+            this._mobility = mobility;
+            this._transportProfile = APtrdescr;
         }
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace m0ch.FIPA
         /// <returns>Dynamic parameter</returns>
         public Boolean? GetDynamic()
         {
-            return this.dynamicR;
+            return this._dynamicR;
         }
 
         /// <summary>
@@ -312,7 +312,7 @@ namespace m0ch.FIPA
         /// <returns>Mobility parameter</returns>
         public Boolean? GetMobility()
         {
-            return this.mobility;
+            return this._mobility;
         }
 
 
@@ -322,7 +322,7 @@ namespace m0ch.FIPA
         /// <returns>transport-profile</returns>
         public APtransportDescription GetAPtransportDescription()
         {
-            return this.transportProfile;
+            return this._transportProfile;
         }
     }
 

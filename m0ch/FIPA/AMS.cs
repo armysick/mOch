@@ -10,16 +10,16 @@ namespace m0ch.FIPA
     /// </summary>
     public class AMS
     {
-        private Dictionary<AID, AMSAgentDescription> activeAgents;
-        private AgentPlatformDescription apDescription;
+        private Dictionary<AID, AMSAgentDescription> _activeAgents;
+        private AgentPlatformDescription _apDescription;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:m0ch.FIPA.AMS"/> class.
         /// </summary>
         public AMS(AgentPlatformDescription apDescription)
         {
-            activeAgents = new Dictionary<AID, AMSAgentDescription>();
-            this.apDescription = apDescription;
+            _activeAgents = new Dictionary<AID, AMSAgentDescription>();
+            this._apDescription = apDescription;
         }
 
 
@@ -32,8 +32,8 @@ namespace m0ch.FIPA
         /// <param name="agent">AMS Agent description</param>
         public void Register(AMSAgentDescription agent)
         {
-            if (!activeAgents.ContainsKey(agent.GetAgentAID()))
-                activeAgents.Add(agent.GetAgentAID(), agent);
+            if (!_activeAgents.ContainsKey(agent.GetAgentAID()))
+                _activeAgents.Add(agent.GetAgentAID(), agent);
         }
 
         /// <summary>
@@ -45,8 +45,8 @@ namespace m0ch.FIPA
         /// <param name="agent">Agent AID</param>
         public void Deregister(AMSAgentDescription agent)
         {
-            if (activeAgents.ContainsKey(agent.GetAgentAID()))
-                activeAgents.Remove(agent.GetAgentAID());
+            if (_activeAgents.ContainsKey(agent.GetAgentAID()))
+                _activeAgents.Remove(agent.GetAgentAID());
         }
 
         /// <summary>
@@ -57,8 +57,8 @@ namespace m0ch.FIPA
         /// <param name="newDscrAgent">New agent description</param>
         public void Modify(AID agent, AMSAgentDescription newDscrAgent)
         {
-            if (activeAgents.ContainsKey(agent))
-                activeAgents[agent] = newDscrAgent;
+            if (_activeAgents.ContainsKey(agent))
+                _activeAgents[agent] = newDscrAgent;
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace m0ch.FIPA
 
             // TODO: Make use of search constraints
 
-            foreach(AMSAgentDescription existingAgent in activeAgents.Values)
+            foreach(AMSAgentDescription existingAgent in _activeAgents.Values)
             {
                 if (existingAgent.GetAgentAID() == agentTmpl.GetAgentAID())
                 {
@@ -92,7 +92,7 @@ namespace m0ch.FIPA
         /// <returns>AgentPlatformDescription object</returns>
         public AgentPlatformDescription GetDescription()
         {
-            return this.apDescription;
+            return this._apDescription;
         }
 
 

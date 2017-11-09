@@ -10,8 +10,8 @@ namespace m0ch.FIPA
     public class Property
     {
 
-        private string name;
-        private string term;
+        private readonly string _name;
+        private readonly string _term;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:m0ch.FIPA.Property"/> class.
@@ -20,26 +20,26 @@ namespace m0ch.FIPA
         /// <param name="term">string and <b>String</b> since term can't be null</param>
         public Property(string name, string term)
         {
-            this.name = name;
-            this.term = term;
+            this._name = name;
+            this._term = term;
         }
 
         /// <summary>
         /// Method to retrieve name parameter;
         /// </summary>
         /// <returns>The name.</returns>
-        public string getName()
+        public string GetName()
         {
-            return this.name;
+            return this._name;
         }
 
         /// <summary>
         /// Method to retrieve term parameter;
         /// </summary>
         /// <returns>The term.</returns>
-        public string getTerm()
+        public string GetTerm()
         {
-            return this.term;
+            return this._term;
         }
 
     }
@@ -51,17 +51,15 @@ namespace m0ch.FIPA
     public class SearchConstraints
     {
 
-        /*
-         * The maximum depth of propagation of the search to federated 
-         * directories. This value should not be negative. 
-         */
-        private int maxDepth;
+        /// <summary>
+        /// The maximum depth of propagation of the search to federated directories. This value should not be negative.
+        /// </summary>
+        private readonly int _maxDepth;
 
-        /*
-         * The maximum number of results to return for the search. 
-         * This value should not be negative.
-         */ 
-        private int maxResults;
+        /// <summary>
+        /// The maximum number of results to return for the search. This value should not be negative.
+        /// </summary>
+        private readonly int _maxResults;
 
 
         /// <summary>
@@ -74,26 +72,26 @@ namespace m0ch.FIPA
             if (maxDepth < 0 || maxResults < 0)
                 throw new MiscException("Arguments shouldn't be null.");
 
-            this.maxDepth = maxDepth;
-            this.maxResults = maxResults;
+            this._maxDepth = maxDepth;
+            this._maxResults = maxResults;
         }
 
         /// <summary>
         /// Gets the max depth.
         /// </summary>
         /// <returns>The max depth.</returns>
-        public int getMaxDepth()
+        public int GetMaxDepth()
         {
-            return this.maxDepth;
+            return this._maxDepth;
         }
 
         /// <summary>
         /// Gets the max results.
         /// </summary>
         /// <returns>The max results.</returns>
-        public int getMaxResults()
+        public int GetMaxResults()
         {
-            return this.maxResults;
+            return this._maxResults;
         }
     }
 }

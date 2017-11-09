@@ -6,40 +6,40 @@ namespace m0ch.Utils
     // Represents all performative given by FIPA
     public enum Perfomative
     {
-        ACCEPTPROPOSAL,
-        AGREE,
-        CANCEL,
-        CALLFORPROPOSAL,
-        CONFIRM,
-        DISCONFIRM,
-        FAILURE,
-        INFORM,
-        INFORMIF,
-        INFORMREF,
-        NOTUNDERSTOOD,
-        PROPAGATE,
-        PROPOSE,
-        PROXY,
-        QUERYIF,
-        QUERYREF,
-        REFUSE,
-        REJECTPROPOSAL,
-        REQUEST,
-        REQUESTWHEN,
-        REQUESTWHENEVER,
-        SUBSCRIBE
+        Acceptproposal,
+        Agree,
+        Cancel,
+        Callforproposal,
+        Confirm,
+        Disconfirm,
+        Failure,
+        Inform,
+        Informif,
+        Informref,
+        Notunderstood,
+        Propagate,
+        Propose,
+        Proxy,
+        Queryif,
+        Queryref,
+        Refuse,
+        Rejectproposal,
+        Request,
+        Requestwhen,
+        Requestwhenever,
+        Subscribe
     };
 
     // Defining all Ontologies defined by this agent
     public enum Ontology
     {
-      DEFAULT
+      Default
     }
 
     // Defining all protocols definied by this agent
     public enum Protocol
     {
-        DEFAULT
+        Default
     }
 
     // Represents the Message exchanged between agents accordint to FIPA 
@@ -47,17 +47,17 @@ namespace m0ch.Utils
     public class Message
     {
         // FIPA standart format for messages
-        private Perfomative performative;
-        private AID sender, receiver, replyTo;
-        private string content;
-        private string language;
-        private string encoding;
-        private Ontology ontology;
-        private Protocol protocol;
-        private string conversationID;
-        private string replyWith;
-        private string inReplyTo;
-        private string replyBy;
+        private Perfomative _performative;
+        private AID _sender, _receiver, _replyTo;
+        private string _content;
+        private string _language;
+        private string _encoding;
+        private Ontology _ontology;
+        private Protocol _protocol;
+        private string _conversationId;
+        private string _replyWith;
+        private string _inReplyTo;
+        private string _replyBy;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:m0ch.Utils.Message"/> class.
@@ -65,7 +65,7 @@ namespace m0ch.Utils
         /// <param name="perf">Perf.</param>
         public Message(Perfomative perf)
         {
-            this.performative = perf;
+            this._performative = perf;
 
         }
 
@@ -75,10 +75,10 @@ namespace m0ch.Utils
         /// </summary>
         /// <param name="senderAID">Sender's AID</param>
         /// <param name="receiverAID">Receiver's AID.</param>
-        public void addEnvelope(AID senderAID, AID receiverAID){
-            this.sender = senderAID;
-            this.receiver = receiverAID;
-            this.replyTo = senderAID;
+        public void AddEnvelope(AID senderAID, AID receiverAID){
+            this._sender = senderAID;
+            this._receiver = receiverAID;
+            this._replyTo = senderAID;
         }
 
         /// <summary>
@@ -88,10 +88,10 @@ namespace m0ch.Utils
         /// <param name="senderAID">Sender's AID</param>
         /// <param name="receiverAID">Receiver's AID</param>
         /// <param name="replyToAID">Reply to's AID</param>
-        public void addEnvelope(AID senderAID, AID receiverAID, AID replyToAID){
-            this.sender = senderAID;
-            this.receiver = receiverAID;
-            this.replyTo = replyToAID;
+        public void AddEnvelope(AID senderAID, AID receiverAID, AID replyToAID){
+            this._sender = senderAID;
+            this._receiver = receiverAID;
+            this._replyTo = replyToAID;
         }
 
         /// <summary>
@@ -101,13 +101,13 @@ namespace m0ch.Utils
         /// <param name="language">Language</param>
         /// <param name="encoding">Encoding</param>
         /// <param name="ontology">Ontology</param>
-        public void addContent(string content, string language, string encoding,
+        public void AddContent(string content, string language, string encoding,
                             Ontology ontology)
         {
-            this.content = content;
-            this.language = language;
-            this.encoding = encoding;
-            this.ontology = ontology;
+            this._content = content;
+            this._language = language;
+            this._encoding = encoding;
+            this._ontology = ontology;
         }
 
         /// <summary>
@@ -118,16 +118,16 @@ namespace m0ch.Utils
         /// <param name="replyWith">Reply with</param>
         /// <param name="inReplyTo">In reply to</param>
         /// <param name="replyBy">Reply by</param>
-        public void addConversationControl(Protocol protocol,
+        public void AddConversationControl(Protocol protocol,
                                            string conversationIdentifier,
                                           string replyWith, string inReplyTo, 
                                            string replyBy)
         {
-            this.protocol = protocol;
-            this.conversationID = conversationIdentifier;
-            this.replyWith = replyWith;
-            this.inReplyTo = inReplyTo;
-            this.replyBy = replyBy;
+            this._protocol = protocol;
+            this._conversationId = conversationIdentifier;
+            this._replyWith = replyWith;
+            this._inReplyTo = inReplyTo;
+            this._replyBy = replyBy;
         }
 
         /// <summary>
@@ -136,8 +136,8 @@ namespace m0ch.Utils
         /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:m0ch.Utils.Message"/>.</returns>
         public override string ToString()
         {
-            return string.Format("[Message] {0} to {1}", this.sender.ToString(), 
-                                 this.receiver.ToString());
+            return string.Format("[Message] {0} to {1}", this._sender.ToString(), 
+                                 this._receiver.ToString());
         }
     }
 
