@@ -20,7 +20,6 @@ namespace m0ch.Network
         // Variable shared with Network in order to share the bytes received by server 
         private readonly ConcurrentQueue<byte[]> _inbox;
 
-
         /// <summary>
         /// Constructor that defines every member of class Server
         /// </summary>

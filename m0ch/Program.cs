@@ -18,6 +18,5 @@ namespace m0ch
 
             Console.ReadLine();
         }
-
     }
 }
