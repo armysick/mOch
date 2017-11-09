@@ -41,6 +41,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agents\Agent.cs" />
+    <Compile Include="Agents\MainCluster.cs" />
     <Compile Include="Network\MessageContainer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,11 +59,7 @@
     <Compile Include="Utils\Misc.cs" />
     <Compile Include="Utils\Config.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Network\" />
-    <Folder Include="Utils\" />
-    <Folder Include="FIPA\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
