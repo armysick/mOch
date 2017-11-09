@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.IO;
 using m0ch.Utils;
 using System.Threading;
 using System.Net.Sockets;
@@ -11,8 +11,23 @@ namespace m0ch.Network
     /// </summary>
     public class Networking
     {
-        // Responsible for storing received messages from server
-        private List<Message> receivedMessages;
+        /// <summary>
+        /// Stores all the bytes that this agents received by the server thread
+        /// </summary>
+        private System.Collections.Concurrent.ConcurrentQueue<byte[]> untreatedInbox;
+
+        /// <summary>
+        /// Responsible for storing messages that were casted from received bytes
+        /// </summary>
+        private System.Collections.Concurrent.ConcurrentQueue<Message> treatedInbox;
+
+
+        /// <summary>
+        /// Variable that stores all the messages that failed to be sent
+        /// </summary>
+        private System.Collections.Concurrent.ConcurrentQueue<MessageContainer> resendInbox; 
+            
+            
         // Object representing server
         private Server listeningServer;
 
@@ -23,9 +38,12 @@ namespace m0ch.Network
         /// <param name="Listeningport">Port in configuration file</param>
         public Networking(int Listeningport)
         {
-            receivedMessages = new List<Message>();
+            
+            untreatedInbox = new ConcurrentQueue<byte[]>();
+            treatedInbox = new ConcurrentQueue<Message>();
+            resendInbox = new ConcurrentQueue<MessageContainer>();
 
-            listeningServer = new Server(Listeningport, ref receivedMessages);
+            listeningServer = new Server(Listeningport, ref untreatedInbox);
             start();
 
         }
@@ -35,25 +53,9 @@ namespace m0ch.Network
         /// </summary>
         public void start()
         {
-            Thread serverThread = new Thread(listeningServer.runServer);
+            Thread serverThread = new Thread(listeningServer.RunServer);
             serverThread.Start();
-
-            //test server
-            System.Threading.Thread.Sleep(2000);
-
-            TcpClient test = new TcpClient();
-            test.Connect("127.0.0.1", 2000);
-
-            Message m1 = new Message(Perfomative.REQUEST);
-            m1.addEnvelope(new FIPA.AID("",""), new FIPA.AID("",""));
-
-
-            GZIP gzip = new GZIP(m1.ToString());
-
-            Stream stm = test.GetStream();
-            stm.Write(gzip.CompressData(), 0, gzip.CompressData().Length);
-            test.Close();
-
+            
         }
 
         /// <summary>

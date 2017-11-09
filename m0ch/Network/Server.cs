@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
@@ -16,8 +17,8 @@ namespace m0ch.Network
         private TcpListener sv_port;
         // Variable responsible for making the thread stop
         private bool stopListening;
-        // Variable shared with Network in order to share messages received by server 
-        private List<Message> inbox;
+        // Variable shared with Network in order to share the bytes received by server 
+        private ConcurrentQueue<byte[]> inbox;
 
 
         /// <summary>
@@ -25,17 +26,17 @@ namespace m0ch.Network
         /// </summary>
         /// <param name="port"></param>
         /// <param name="inbox"></param>
-        public Server(int port, ref List<Message> inbox)
+        public Server(int port, ref ConcurrentQueue<byte[]> untreatedInbox)
         {
             sv_port = new TcpListener(IPAddress.Any, port);
             stopListening = false;
-            this.inbox = inbox;
+            this.inbox = untreatedInbox;
         }
 
         /// <summary>
         /// Function responsible for listning an already defined port
         /// </summary>
-        public void runServer()
+        public void RunServer()
         {
             Console.WriteLine("Server has opened!");
             sv_port.Start();
@@ -51,7 +52,8 @@ namespace m0ch.Network
 
                     sn.Read(data, 0, incomingMessage.ReceiveBufferSize);
 
-                    castMessage(data);
+                    //castMessage(data);
+                    this.inbox.Enqueue(data);
                 }
 
                 Console.WriteLine("Message from {0}",

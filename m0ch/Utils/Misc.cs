@@ -7,22 +7,22 @@ namespace m0ch.Utils
         /// <summary>
         /// Possible types of operating system
         /// </summary>
-        public enum OS { UNIX, WINDOWS, DEFAULT };
+        public enum OperatingSystem { Unix, Windows, Default };
 
         /// <summary>
         /// Detectes the operating system that is running on the current machine
         /// </summary>
         /// <returns>The running operating system.</returns>
-        public static OS GetRunningOperatingSystem()
+        private static OperatingSystem GetRunningOperatingSystem()
         {
-            OS version = OS.DEFAULT;
+            OperatingSystem version = OperatingSystem.Default;
 
             int p = (int)System.Environment.OSVersion.Platform;
 
             if (p == 4 || p == 6 || p == 128)
-                version = OS.UNIX;
+                version = OperatingSystem.Unix;
             else
-                version = OS.WINDOWS;
+                version = OperatingSystem.Windows;
 
             return version;
         }
@@ -31,10 +31,10 @@ namespace m0ch.Utils
         /// Makes use of the operating system version to retrieve config file location
         /// </summary>
         /// <returns>The config file URL.</returns>
-        public static string GetConfigFileURL()
+        public static string GetConfigFileUrl()
         {
 
-            if (Misc.GetRunningOperatingSystem() == Misc.OS.UNIX)
+            if (Misc.GetRunningOperatingSystem() == Misc.OperatingSystem.Unix)
                 return @"/Users/" + Environment.UserName + "/.m0ch/config.ini";
             else
                 return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
