@@ -13,7 +13,7 @@ namespace m0ch
             Config _config = new Config(configFileURL);
             _config.InitParse();
 
-            
+            Agents.MainCluster mainCluster= new Agents.MainCluster(_config.GetAgentPlatformPort());
 
             Console.ReadLine();
         }
