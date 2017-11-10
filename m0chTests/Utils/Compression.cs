@@ -1,5 +1,5 @@
 ﻿using System;
-using m0ch.Utils;
+using m0ch;
 using NUnit.Framework;
 
 namespace m0chTests
@@ -11,7 +11,7 @@ namespace m0chTests
         public void Test_GZIP_Compression()
         {
 
-            GZIP test = new GZIP("Test");
+            m0ch.Utils.GZIP test = new m0ch.Utils.GZIP("Test");
 
             byte[] compressedData = test.CompressData();
             
@@ -22,7 +22,7 @@ namespace m0chTests
         public void Test_GZIP_Compression_Decompression()
         {
 
-            GZIP test = new GZIP("Test");
+            m0ch.Utils.GZIP test = new m0ch.Utils.GZIP("Test");
 
             byte[] compressedData = test.CompressData();
             
