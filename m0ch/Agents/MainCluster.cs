@@ -27,6 +27,11 @@ namespace m0ch.Agents
 
 
         /// <summary>
+        /// Event that is fired when MainCluster has a new message
+        /// </summary>
+        private EventHandler _gotNewMessage;
+
+        /// <summary>
         /// Constructor of MainCluster
         /// </summary>
         /// <param name="serverPort"></param>
@@ -34,6 +39,21 @@ namespace m0ch.Agents
         {
             this._networkAcess = new Networking(serverPort);
             this._services = new AMServices();
+
+            _gotNewMessage += GotMessageEvent;
         }
+        
+        /// <summary>
+        /// Function that is runned as soon as there are a new message
+        /// </summary>
+        /// <param name="Object"></param>
+        /// <param name="args"></param>
+        private void GotMessageEvent(object Object, EventArgs args)
+        {
+            Console.WriteLine("Got a new Message");
+        }
+        
+        
+        
     }
 }
