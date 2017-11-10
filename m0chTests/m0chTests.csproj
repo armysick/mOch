@@ -45,6 +45,10 @@
       <Project>{90531a7f-f669-4b86-a3d4-da5bfe19230e}</Project>
       <Name>m0ch</Name>
     </ProjectReference>
+    <ProjectReference Include="..\m0ch\m0ch.csproj">
+      <Project>{90531a7f-f669-4b86-a3d4-da5bfe19230e}</Project>
+      <Name>m0ch</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
