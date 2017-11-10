@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using m0ch.FIPA;
 using m0ch.Network;
 
@@ -15,7 +16,6 @@ namespace m0ch.Agents
         /// Variable that holds and is used to interact with AMS and DF
         /// </summary>
         private FIPA.AMServices _services;
-
 
         /// <summary>
         /// Event that is fired when MainCluster has a new message
@@ -43,8 +43,6 @@ namespace m0ch.Agents
         {
             Console.WriteLine("Got a new Message");
         }
-        
-        
         
     }
 }

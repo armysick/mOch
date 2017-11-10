@@ -19,14 +19,15 @@ namespace m0ch.FIPA
         /// <summary>
         /// Register the specified agent on yellow pages.
         /// </summary>
-        /// <returns></returns>
-        /// <param name="agentDescription">Agent description object.</param>
-        public void Register(DFAgentDescription agentDescription)
+        /// <param name="agentDescription">Agent description</param>
+        /// <returns>True if registered, False otherwise.</returns>
+        public bool Register(DFAgentDescription agentDescription)
         {
-            if (!_yellowPages.ContainsValue(agentDescription))
-                _yellowPages.Add(agentDescription.GetAgentAID(), agentDescription);
-            else
-                throw new DirectoryFacilitatorException("AgentID already exists");
+            if (_yellowPages.ContainsValue(agentDescription))
+                return false;
+
+            _yellowPages.Add(agentDescription.GetAgentAID(), agentDescription);
+            return true;
         }
 
         /// <summary>
@@ -40,7 +41,6 @@ namespace m0ch.FIPA
                 _yellowPages.Remove(agentDescription.GetAgentAID());
             else
                 throw new DirectoryFacilitatorException("AgentID does not exist");
-
         }
 
         /// <summary>
@@ -50,17 +50,15 @@ namespace m0ch.FIPA
         /// <param name="oldDescription">Old DFAgentDescription</param>
         /// <param name="newDescription">New DFAgentDescription.</param>
         public void Modify(DFAgentDescription oldDescription,
-                           DFAgentDescription newDescription)
+            DFAgentDescription newDescription)
         {
             if (_yellowPages.ContainsKey(oldDescription.GetAgentAID()))
             {
-                
                 _yellowPages.Remove(oldDescription.GetAgentAID());
                 _yellowPages.Add(newDescription.GetAgentAID(), newDescription);
             }
             else
                 throw new DirectoryFacilitatorException("AgentID does not exist");
-                
         }
 
         /// <summary>
@@ -70,14 +68,13 @@ namespace m0ch.FIPA
         /// <param name="agentTemplate">DFAgentDescription template</param>
         /// <param name="constraints">Search constraints.</param>
         public DFAgentDescription[] Search(DFAgentDescription agentTemplate,
-                                          SearchConstraints constraints)
+            SearchConstraints constraints)
         {
             // TODO: Make use of constraints
             List<DFAgentDescription> allMatchedAgent = new List<DFAgentDescription>();
 
-            foreach(DFAgentDescription existingAgent in this._yellowPages.Values)
+            foreach (DFAgentDescription existingAgent in this._yellowPages.Values)
             {
-
                 // Check if agent has the same ID
                 if (agentTemplate.GetAgentAID() == existingAgent.GetAgentAID())
                 {
@@ -86,22 +83,20 @@ namespace m0ch.FIPA
                 }
 
                 // Check if servive is available on one of the agents
-                foreach(ServiceDescription srv in agentTemplate.GetServices())
+                foreach (ServiceDescription srv in agentTemplate.GetServices())
                 {
-                    foreach(ServiceDescription srvYellowPage in existingAgent.GetServices())
+                    foreach (ServiceDescription srvYellowPage in existingAgent.GetServices())
                     {
                         if (srv == srvYellowPage)
                         {
                             allMatchedAgent.Add(existingAgent);
                             continue;
                         }
-
                     }
                 }
             }
 
             return allMatchedAgent.ToArray();
         }
-
     }
 }

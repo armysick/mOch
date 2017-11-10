@@ -3,7 +3,7 @@ using System.Reflection;
 namespace m0ch.FIPA
 {
     // All possible states for an agent that exists on platform
-    public enum AgentState { NONE, INITIATED, ACTIVE, SUSPENDED, WAITING, TRANSIT }
+    public enum AgentState { None, Initiated, Active, Suspended, Waiting, Transit }
 
     public abstract class Description
     {
@@ -80,7 +80,7 @@ namespace m0ch.FIPA
         /// <param name="ownership">Agent's Ownership</param>
         /// <param name="agentState">Agent' state</param>
         public AMSAgentDescription(AID agentAID = null, string ownership = null,
-                                AgentState agentState = AgentState.NONE)
+                                AgentState agentState = AgentState.None)
         {
             this.Name = agentAID;
             this._ownership = ownership;

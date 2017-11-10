@@ -28,12 +28,16 @@ namespace m0ch.FIPA
         /// For now, it will accept and register. In the future, In case of an 
         /// already registered agent having the same name, it will return an error.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True if added, False otherwise</returns>
         /// <param name="agent">AMS Agent description</param>
-        public void Register(AMSAgentDescription agent)
+        public bool Register(AMSAgentDescription agent)
         {
-            if (!_activeAgents.ContainsKey(agent.GetAgentAID()))
-                _activeAgents.Add(agent.GetAgentAID(), agent);
+
+            if (_activeAgents.ContainsKey(agent.GetAgentAID()))
+                return false;
+
+            _activeAgents.Add(agent.GetAgentAID(), agent);
+            return true;
         }
 
         /// <summary>
@@ -64,8 +68,9 @@ namespace m0ch.FIPA
         /// <summary>
         /// Search for a specific agent in AMS.
         /// </summary>
-        /// <returns>The search.</returns>
-        /// <param name="agent">AMSAgentDescription if found or null otherwise</param>
+        /// <param name="agentTmpl">An agent description template</param>
+        /// <param name="cstrnts">Search constraints</param>
+        /// <returns>Array of results or null</returns>
         public AMSAgentDescription[] Search(AMSAgentDescription agentTmpl, SearchConstraints cstrnts)
         {
 

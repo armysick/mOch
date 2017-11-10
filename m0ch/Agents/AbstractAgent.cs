@@ -7,21 +7,32 @@ namespace m0ch.Agents
     /// </summary>
     abstract class AbstractAgent
     {
-        
         /// <summary>
-        /// Variable that holds everything that happens in the network
+        /// Variable that holds everything that happens in the network.
         /// </summary>
         protected Network.Networking NetworkAcess;
 
-
+        
+        /// <summary>
+        /// Variable that holds the uniquess identifier of an agent.
+        /// </summary>
+        protected FIPA.AID AgentIdentificer;
+        
         /// <summary>
         /// Method that returns Network variable
         /// </summary>
         /// <returns></returns>
-        protected Network.Networking GetNetworking()
+        public Network.Networking GetNetworking()
         {
             return this.NetworkAcess;
         }
 
+        /// <summary>
+        /// Method that returns Agent's AID
+        /// </summary>
+        public FIPA.AID getAID()
+        {
+            return this.AgentIdentificer;
+        }
     }
 }
