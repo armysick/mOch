@@ -1,8 +1,7 @@
 ﻿using System;
-using m0ch;
 using NUnit.Framework;
 
-namespace m0chTests
+namespace m0chTests.Utils
 {
     [TestFixture()]
     public class Compression
