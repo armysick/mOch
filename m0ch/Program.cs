@@ -13,8 +13,7 @@ namespace m0ch
             Config _config = new Config(configFileURL);
             _config.InitParse();
 
-            // Start Networking
-            Networking _net = new Networking(_config.GetAgentPlatformPort());
+            
 
             Console.ReadLine();
         }
