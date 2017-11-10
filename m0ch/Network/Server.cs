@@ -4,6 +4,7 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Collections.Generic;
+using m0ch.Agents;
 using m0ch.Utils;
 
 namespace m0ch.Network
@@ -52,6 +53,7 @@ namespace m0ch.Network
 
                     //castMessage(data);
                     this._inbox.Enqueue(data);
+                    MainCluster.GotNewMessage.Invoke(null, null);
                 }
 
                 Console.WriteLine("Message from {0}",

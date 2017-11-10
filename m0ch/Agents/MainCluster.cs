@@ -29,7 +29,7 @@ namespace m0ch.Agents
         /// <summary>
         /// Event that is fired when MainCluster has a new message
         /// </summary>
-        private EventHandler _gotNewMessage;
+        public static EventHandler GotNewMessage;
 
         /// <summary>
         /// Constructor of MainCluster
@@ -40,7 +40,7 @@ namespace m0ch.Agents
             this._networkAcess = new Networking(serverPort);
             this._services = new AMServices();
 
-            _gotNewMessage += GotMessageEvent;
+            GotNewMessage += GotMessageEvent;
         }
         
         /// <summary>
