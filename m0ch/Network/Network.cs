@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.IO;
 using m0ch.Utils;
 using System.Threading;
-using System.Net.Sockets;
+using m0ch.Agents;
 
 namespace m0ch.Network
 {
@@ -116,6 +115,7 @@ namespace m0ch.Network
                     // TODO: Serialization of messages to better decoding
 
                     _treatedInbox.Enqueue(new Message(Perfomative.Failure));
+                    MainCluster.GotNewMessage.Invoke(null, null);
                 }
                 catch (Exception e)
                 {

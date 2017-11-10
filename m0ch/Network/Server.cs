@@ -53,7 +53,6 @@ namespace m0ch.Network
 
                     //castMessage(data);
                     this._inbox.Enqueue(data);
-                    MainCluster.GotNewMessage.Invoke(null, null);
                 }
 
                 Console.WriteLine("Message from {0}",
