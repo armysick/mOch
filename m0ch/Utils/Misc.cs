@@ -30,15 +30,15 @@ namespace m0ch.Utils
         /// <summary>
         /// Makes use of the operating system version to retrieve config file location
         /// </summary>
-        /// <returns>The config file URL.</returns>
-        public static string GetConfigFileUrl()
+        /// <returns>The config files URL.</returns>
+        public static string GetConfigFilesUrl()
         {
 
             if (Misc.GetRunningOperatingSystem() == Misc.OperatingSystem.Unix)
-                return @"/Users/" + Environment.UserName + "/.m0ch/config.ini";
+                return @"/Users/" + Environment.UserName + "/.m0ch/config/";
             else
                 return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
-                                  + "/m0ch/config.ini".Replace('/', System.IO.Path.DirectorySeparatorChar);
+                                  + "/m0ch/config/".Replace('/', System.IO.Path.DirectorySeparatorChar);
 
         }
     }

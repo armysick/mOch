@@ -12,65 +12,177 @@ namespace m0ch.Utils
     /// <summary>
     /// Class responsible for parsing and storing all the information present on the config file
     /// </summary>
-    public class Config
+    public abstract class Config
     {
 
         /// <summary>
         /// Location of the config file in the disk
         /// </summary>
-        private readonly string _configFileUrl;
-
-        /// <summary>
-        /// Name to be used as AID's name
-        /// </summary>
-        private string _machineName;
-
-        /// <summary>
-        /// Stores the IP address of the Agent Platform
-        /// </summary>
-        private string _platformIp;
-
-        /// <summary>
-        /// Stores the port to be used in this agent
-        /// </summary>
-        private int _platformPort;
-
-        /// <summary>
-        /// Stores the compression algorithms understood by the platform
-        /// </summary>
-        private List<string> _supportedAlgorithms;
-
-
-        /// <summary>
-        /// Stores the prefered algorithm of the platform
-        /// </summary>
-        private string _preferedAlgorithm;
-
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:m0ch.Utils.Config"/> class.
-        /// </summary>
-        /// <param name="fileLocation">Location of the config file.</param>
-        public Config(string fileLocation)
-        {
-            _configFileUrl = fileLocation;
-            _supportedAlgorithms = new List<string>();
-        }
-
-
+        protected string configFileUrl;
+        
         /// <summary>
         /// Parses the file passed in the constructor of this class and populates the members.
         /// </summary>
         /// <returns><c>true</c>, if parse was successfully finished, <c>false</c> otherwise.</returns>
-        public bool InitParse()
+        public abstract bool InitParse();
+        
+    }
+
+    /// <summary>
+    /// Class responsible for parsing and storing the information about config variables related to the Agent Platform
+    /// </summary>
+    public class AgentPlatformConfig : Config
+    {
+        private static readonly string FILENAME = "PLATFORMCONFIG.ini";
+
+        /// <summary>
+        /// Represents the host domain of the platform.
+        /// </summary>
+        private string _platformName;
+
+        /// <summary>
+        /// The support for dynamic registration of the AP.
+        /// </summary>
+        private bool _dynamic;
+
+        /// <summary>
+        /// The support for mobility of the AP.
+        /// </summary>
+        private bool _mobility;
+
+        /// <summary>
+        /// Holds the port where it is supposed to listen for incoming messages
+        /// </summary>
+        private int _serverPort;
+
+        /// <summary>
+        /// Initializes a new AgentPlataformConfig object in order to store all the configs presented in the config file.
+        /// </summary>
+        /// <param name="configFileUrl">Url where config file is presented.</param>
+        public AgentPlatformConfig(string configFileUrl)
         {
+            this.configFileUrl = configFileUrl + AgentPlatformConfig.FILENAME;
+        }
 
-            var parser = new FileIniDataParser();
+        public override bool InitParse()
+        {
+            FileIniDataParser parser = new FileIniDataParser();
 
-            if (File.Exists(this._configFileUrl))
+            if (File.Exists(this.configFileUrl))
             {
-                try {
-                    IniData configuration = parser.ReadFile(_configFileUrl);
+                try
+                {
+                    IniData configuration = parser.ReadFile(configFileUrl);
+
+                    // Agent Platform Description
+                    this._platformName = configuration["AgentPlatformDescription"]["PlataformName"];
+                    this._dynamic = bool.Parse(configuration["AgentPlatformDescription"]["AllowDynamic"]);
+                    this._mobility = bool.Parse(configuration["AgentPlatformDescription"]["AllowMobility"]);
+
+                    // Server
+                    this._serverPort = Int32.Parse(configuration["Server"]["Port"]);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Returns Platform Name.
+        /// </summary>
+        /// <returns>String read in config files.</returns>
+        public string getPlatformName()
+        {
+            return this._platformName;
+        }
+
+        /// <summary>
+        /// Returns the port where it is supposed to listen incoming messages.
+        /// </summary>
+        /// <returns>Integer read in config file.</returns>
+        public int getServerPort()
+        {
+            return this._serverPort;
+        }
+
+        /// <summary>
+        /// Gets the dynamic variable
+        /// </summary>
+        /// <returns>Variable read in config file</returns>
+        public bool GetDynamic()
+        {
+            return this._dynamic;
+        }
+
+        /// <summary>
+        /// Gets the Mobility variable
+        /// </summary>
+        /// <returns>Variable read in config file</returns>
+        public bool GetMobility()
+        {
+            return this._mobility;
+        }
+    }
+
+    /// <summary>
+    /// Class responsible for parsing and storing the information about config variables related to Agents
+    /// </summary>
+    public class AgentConfig : Config
+    {
+        /// <summary>
+        /// Variable that holds the filename where the configurations are made.
+        /// </summary>
+        private static readonly string FILENAME = "AGENTCONFIG.ini";
+
+        /// <summary>
+        /// Name to be used as AID's name.
+        /// </summary>
+        private string _machineName;
+
+        /// <summary>
+        /// Stores the IP address of the Agent Platform.
+        /// </summary>
+        private string _platformIp;
+
+        /// <summary>
+        /// Stores the port to be used in this agent.
+        /// </summary>
+        private int _platformPort;
+
+        /// <summary>
+        /// Stores the compression algorithms understood by the platform.
+        /// </summary>
+        private List<string> _supportedAlgorithms;
+        
+        /// <summary>
+        /// Stores the prefered algorithm of the platform.
+        /// </summary>
+        private string _preferedAlgorithm;
+
+        /// <summary>
+        /// Initializes a new AgentPlataformConfig object in order to store all the configs presented in the config file.
+        /// </summary>
+        /// <param name="configFileUrl">Url where config file is presented.</param>
+        public AgentConfig(string configFileUrl)
+        {
+            this.configFileUrl = configFileUrl + AgentConfig.FILENAME;
+        }
+
+
+        public override bool InitParse()
+        {
+            FileIniDataParser parser = new FileIniDataParser();
+
+            if (File.Exists(this.configFileUrl))
+            {
+                try
+                {
+                    IniData configuration = parser.ReadFile(configFileUrl);
 
                     // Agent Platform related
                     _platformIp = configuration["AgentPlatform"]["IP"];
@@ -84,7 +196,8 @@ namespace m0ch.Utils
                     _preferedAlgorithm = configuration["Preferences"]["CompressionAlgorithm"];
                     _machineName = configuration["Preferences"]["MachineName"];
 
-                } catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
                     return false;
@@ -93,7 +206,6 @@ namespace m0ch.Utils
 
             return true;
         }
-    
 
         /// <summary>
         /// Gets the config URL.
@@ -101,7 +213,7 @@ namespace m0ch.Utils
         /// <returns>The config URL passed in the constructor.</returns>
         public string GetConfigUrl()
         {
-            return this._configFileUrl;
+            return this.configFileUrl;
         }
 
         /// <summary>
@@ -148,6 +260,5 @@ namespace m0ch.Utils
         {
             return this._preferedAlgorithm;
         }
-
     }
 }

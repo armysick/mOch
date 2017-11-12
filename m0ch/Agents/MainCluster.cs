@@ -2,6 +2,7 @@
 using System.Net;
 using m0ch.FIPA;
 using m0ch.Network;
+using m0ch.Utils;
 
 namespace m0ch.Agents
 {
@@ -26,9 +27,9 @@ namespace m0ch.Agents
         /// Constructor of MainCluster
         /// </summary>
         /// <param name="serverPort"></param>
-        public MainCluster(int serverPort)
+        public MainCluster(AgentPlatformConfig config)
         {
-            this.NetworkAcess = new Networking(serverPort);
+            this.NetworkAcess = new Networking(config.getServerPort());
             this._services = new AMServices();
 
             GotNewMessage += GotMessageEvent;

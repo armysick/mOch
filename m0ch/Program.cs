@@ -9,11 +9,15 @@ namespace m0ch
         public static void Main(string[] args)
         {
             // Read, parse, store the config file
-            string configFileURL = Misc.GetConfigFileUrl();
-            Config _config = new Config(configFileURL);
-            _config.InitParse();
+            string configFilesURL = Misc.GetConfigFilesUrl();
 
-            Agents.MainCluster mainCluster= new Agents.MainCluster(_config.GetAgentPlatformPort());
+            AgentConfig ag = new AgentConfig(configFilesURL);
+            ag.InitParse();
+
+            AgentPlatformConfig agp = new AgentPlatformConfig(configFilesURL);
+            agp.InitParse();
+
+            Agents.MainCluster mainCluster= new Agents.MainCluster(agp.GetAgentPlatformPort());
 
             Console.ReadLine();
         }
