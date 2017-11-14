@@ -35,3 +35,18 @@ CompressionAlgorithm = 2
 ;Machine name is the platform name
 MachineName = "ap"
 ``` 
+
+Agent Platform File
+-------------
+```ini
+;All the the variables needed in the use of this platform are described here
+
+[AgentPlatformDescription]
+
+PlataformName = LIACC
+AllowDynamic = FALSE
+AllowMobility = FALSE
+
+[Server]
+Port = 2000
+``` 
