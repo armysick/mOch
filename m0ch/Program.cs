@@ -17,7 +17,7 @@ namespace m0ch
             AgentPlatformConfig agp = new AgentPlatformConfig(configFilesURL);
             agp.InitParse();
 
-            Agents.MainCluster mainCluster= new Agents.MainCluster(agp.GetAgentPlatformPort());
+            Agents.MainCluster mainCluster= new Agents.MainCluster(agp);
 
             Console.ReadLine();
         }
