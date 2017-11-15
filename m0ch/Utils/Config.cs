@@ -15,8 +15,10 @@ namespace m0ch.Utils
     /// </summary>
     public abstract class Config
     {
-        
-        protected static Logger logger = LogManager.GetCurrentClassLogger();
+        /// <summary>
+        /// Variable responsible for logging.
+        /// </summary>
+        protected static readonly Logger LoggerObj = LogManager.GetCurrentClassLogger();
         
         /// <summary>
         /// Location of the config file in the disk
@@ -75,7 +77,7 @@ namespace m0ch.Utils
             {
                 try
                 {
-                    logger.Trace("Parsing data present in " + FILENAME);
+                    LoggerObj.Trace("Parsing data present in " + FILENAME);
                     IniData configuration = parser.ReadFile(ConfigFileUrl);
 
                     // Agent Platform Description
@@ -88,13 +90,13 @@ namespace m0ch.Utils
                 }
                 catch (Exception ex)
                 {
-                    logger.Error("On parsing data present in " + FILENAME);
+                    LoggerObj.Error("On parsing data present in " + FILENAME);
                     return false;
                 }
             }
             else
             {
-                logger.Fatal("Config file " + FILENAME + " not found.");
+                LoggerObj.Fatal("Config file " + FILENAME + " not found.");
             }
 
             return true;
@@ -190,7 +192,7 @@ namespace m0ch.Utils
             {
                 try
                 {
-                    logger.Trace("Parsing data present in " + FILENAME);
+                    LoggerObj.Trace("Parsing data present in " + FILENAME);
                     IniData configuration = parser.ReadFile(ConfigFileUrl);
 
                     // Agent Platform related
@@ -208,13 +210,13 @@ namespace m0ch.Utils
                 }
                 catch (Exception ex)
                 {
-                    logger.Error("On parsing data present in " + FILENAME);
+                    LoggerObj.Error("On parsing data present in " + FILENAME);
                     return false;
                 }
             }
             else
             {
-                logger.Fatal("Config file " + FILENAME + " not found.");
+                LoggerObj.Fatal("Config file " + FILENAME + " not found.");
             }
 
             return true;

@@ -7,12 +7,15 @@ namespace m0ch
     class MainClass
     {
 
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        /// <summary>
+        /// Variable responsible for logging.
+        /// </summary>
+        protected static readonly Logger LoggerObj = LogManager.GetCurrentClassLogger();
         
         public static void Main(string[] args)
         {
-            logger.Trace("Initializing Agent Management System.");
-            logger.Trace("Beginning to read configuration files.");
+            LoggerObj.Trace("Initializing Agent Management System.");
+            LoggerObj.Trace("Beginning to read configuration files.");
             
             // Read, parse, store the config file
             string configFilesURL = Misc.GetConfigFilesUrl();
@@ -23,7 +26,7 @@ namespace m0ch
             AgentPlatformConfig agp = new AgentPlatformConfig(configFilesURL);
             agp.InitParse();
             
-            logger.Trace("Starting main cluster.");
+            LoggerObj.Trace("Starting main cluster.");
             Agents.MainCluster mainCluster= new Agents.MainCluster(agp);
             
             Console.ReadLine();
