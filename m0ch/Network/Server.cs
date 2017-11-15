@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Collections.Generic;
 using m0ch.Agents;
 using m0ch.Utils;
+using NLog;
 
 namespace m0ch.Network
 {
@@ -14,10 +15,17 @@ namespace m0ch.Network
     /// </summary>
     public class Server
     {
+        /// <summary>
+        /// Variable responsible for logging.
+        /// </summary>
+        private static readonly Logger LoggerObj = LogManager.GetCurrentClassLogger();
+        
         // Server Listener
         private readonly TcpListener _svPort;
+        
         // Variable responsible for making the thread stop
         private bool _stopListening;
+        
         // Variable shared with Network in order to share the bytes received by server 
         private readonly ConcurrentQueue<byte[]> _inbox;
 
@@ -37,7 +45,7 @@ namespace m0ch.Network
         /// </summary>
         public void RunServer()
         {
-            Console.WriteLine("Server has opened!");
+            LoggerObj.Trace("Server is listening.");
             _svPort.Start();
 
             while (!_stopListening)
@@ -45,7 +53,9 @@ namespace m0ch.Network
 
                 TcpClient incomingMessage = _svPort.AcceptTcpClient();
                 NetworkStream sn = incomingMessage.GetStream();
-
+                
+                LoggerObj.Trace("Server received new message.");
+                
                 if (sn.CanRead){
                     byte[] data = new byte[incomingMessage.ReceiveBufferSize];
 
@@ -53,10 +63,8 @@ namespace m0ch.Network
 
                     //castMessage(data);
                     this._inbox.Enqueue(data);
+                    LoggerObj.Trace("Server stored received data.");
                 }
-
-                Console.WriteLine("Message from {0}",
-                                  incomingMessage.Client.RemoteEndPoint);
 
                 sn.Close();
             }
@@ -70,6 +78,7 @@ namespace m0ch.Network
         {
             _stopListening = true;
             _svPort.Stop();
+            LoggerObj.Trace("Server is no longer listening.");
         }
 
 

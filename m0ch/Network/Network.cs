@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using m0ch.Utils;
 using System.Threading;
 using m0ch.Agents;
+using NLog;
 
 namespace m0ch.Network
 {
@@ -11,6 +12,12 @@ namespace m0ch.Network
     /// </summary>
     public class Networking
     {
+        
+        /// <summary>
+        /// Variable responsible for logging.
+        /// </summary>
+        private static readonly Logger LoggerObj = LogManager.GetCurrentClassLogger();
+        
         /// <summary>
         /// Stores all the bytes that this agents received by the server thread
         /// </summary>
@@ -66,14 +73,15 @@ namespace m0ch.Network
         /// </summary>
         private void Start()
         {
+            LoggerObj.Trace("Starting listening thread.");
             _serverThread = new Thread(_listeningServer.RunServer);
             _serverThread.Start();
 
-
+            LoggerObj.Trace("Starting casting thread.");
             _castingThread = new Thread(CastingMessages);
             _castingThread.Start();
 
-
+            LoggerObj.Trace("Starting sending thread.");
             _responseThread = new Thread(ResponseMessages);
             _responseThread.Start();
         }
@@ -88,6 +96,8 @@ namespace m0ch.Network
             _serverThread.Join();
             _castingThread.Join();
             _responseThread.Join();
+            
+            LoggerObj.Trace("Instance is no longer connected with other instances.");
         }
 
 
