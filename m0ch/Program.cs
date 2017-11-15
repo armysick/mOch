@@ -11,7 +11,9 @@ namespace m0ch
         
         public static void Main(string[] args)
         {
-            logger.Debug("Initializing Agent Management System.");
+            logger.Trace("Initializing Agent Management System.");
+            logger.Trace("Beginning to read configuration files.");
+            
             // Read, parse, store the config file
             string configFilesURL = Misc.GetConfigFilesUrl();
 
@@ -20,10 +22,10 @@ namespace m0ch
 
             AgentPlatformConfig agp = new AgentPlatformConfig(configFilesURL);
             agp.InitParse();
-
+            
+            logger.Trace("Starting main cluster.");
             Agents.MainCluster mainCluster= new Agents.MainCluster(agp);
             
-            logger.Error("wqeq");
             Console.ReadLine();
         }
     }

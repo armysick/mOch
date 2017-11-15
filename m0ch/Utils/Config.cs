@@ -5,6 +5,7 @@ using IniParser.Model;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using NLog;
 
 
 namespace m0ch.Utils
@@ -14,11 +15,13 @@ namespace m0ch.Utils
     /// </summary>
     public abstract class Config
     {
-
+        
+        protected static Logger logger = LogManager.GetCurrentClassLogger();
+        
         /// <summary>
         /// Location of the config file in the disk
         /// </summary>
-        protected string configFileUrl;
+        protected string ConfigFileUrl;
         
         /// <summary>
         /// Parses the file passed in the constructor of this class and populates the members.
@@ -61,18 +64,19 @@ namespace m0ch.Utils
         /// <param name="configFileUrl">Url where config file is presented.</param>
         public AgentPlatformConfig(string configFileUrl)
         {
-            this.configFileUrl = configFileUrl + AgentPlatformConfig.FILENAME;
+            this.ConfigFileUrl = configFileUrl + AgentPlatformConfig.FILENAME;
         }
 
         public override bool InitParse()
         {
             FileIniDataParser parser = new FileIniDataParser();
 
-            if (File.Exists(this.configFileUrl))
+            if (File.Exists(this.ConfigFileUrl))
             {
                 try
                 {
-                    IniData configuration = parser.ReadFile(configFileUrl);
+                    logger.Trace("Parsing data present in " + FILENAME);
+                    IniData configuration = parser.ReadFile(ConfigFileUrl);
 
                     // Agent Platform Description
                     this._platformName = configuration["AgentPlatformDescription"]["PlataformName"];
@@ -84,9 +88,13 @@ namespace m0ch.Utils
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
+                    logger.Error("On parsing data present in " + FILENAME);
                     return false;
                 }
+            }
+            else
+            {
+                logger.Fatal("Config file " + FILENAME + " not found.");
             }
 
             return true;
@@ -170,7 +178,7 @@ namespace m0ch.Utils
         /// <param name="configFileUrl">Url where config file is presented.</param>
         public AgentConfig(string configFileUrl)
         {
-            this.configFileUrl = configFileUrl + AgentConfig.FILENAME;
+            this.ConfigFileUrl = configFileUrl + AgentConfig.FILENAME;
         }
 
 
@@ -178,11 +186,12 @@ namespace m0ch.Utils
         {
             FileIniDataParser parser = new FileIniDataParser();
 
-            if (File.Exists(this.configFileUrl))
+            if (File.Exists(this.ConfigFileUrl))
             {
                 try
                 {
-                    IniData configuration = parser.ReadFile(configFileUrl);
+                    logger.Trace("Parsing data present in " + FILENAME);
+                    IniData configuration = parser.ReadFile(ConfigFileUrl);
 
                     // Agent Platform related
                     _platformIp = configuration["AgentPlatform"]["IP"];
@@ -199,9 +208,13 @@ namespace m0ch.Utils
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
+                    logger.Error("On parsing data present in " + FILENAME);
                     return false;
                 }
+            }
+            else
+            {
+                logger.Fatal("Config file " + FILENAME + " not found.");
             }
 
             return true;
@@ -213,7 +226,7 @@ namespace m0ch.Utils
         /// <returns>The config URL passed in the constructor.</returns>
         public string GetConfigUrl()
         {
-            return this.configFileUrl;
+            return this.ConfigFileUrl;
         }
 
         /// <summary>
