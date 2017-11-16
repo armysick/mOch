@@ -38,7 +38,7 @@ namespace m0ch.Utils
     /// </summary>
     public class AgentPlatformConfig : Config
     {
-        private static readonly string FILENAME = "platoform.ini";
+        private static readonly string FILENAME = "platform.ini";
 
         /// <summary>
         /// Represents the host domain of the platform.
@@ -90,7 +90,7 @@ namespace m0ch.Utils
                 }
                 catch (Exception ex)
                 {
-                    LoggerObj.Error("On parsing data present in " + FILENAME);
+                    LoggerObj.Error("On parsing data present in " + FILENAME + "." + ex);
                     return false;
                 }
             }
