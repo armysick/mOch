@@ -7,12 +7,23 @@ namespace m0ch.Utils
         /// <summary>
         /// Possible types of operating system
         /// </summary>
-        public enum OperatingSystem
+        private enum OperatingSystem
         {
             Unix,
             Windows,
             Default
         }
+        
+        /// <summary>
+        /// All the algorithms learned
+        /// </summary>
+        public enum CompressionAlgorithm
+        {
+            Gzip,
+            Deflate,
+            L4Z
+        }
+        
         
         /// <summary>
         /// Detectes the operating system that is running on the current machine
