@@ -1,250 +1,181 @@
-﻿using System;
+﻿
 using System.IO;
 using System.IO.Compression;
-using LZ4;
 using System.Text;
+using LZ4;
 
 namespace m0ch.Utils
 {
-    /// <summary>
-    /// Abstract class that defines data and functions needed to be implemented by child classes.
-    /// </summary>
-    public abstract class Compression
+
+
+    public class Compression
     {
 
         /// <summary>
-        /// InitialData represents the data to be compressed
+        /// Function responsible for compressing a string passed as argument into an array of bytes.
         /// </summary>
-        protected string InitialData;
-        
-        /// <summary>
-        /// FinalData represents the data after be compressed
-        /// </summary>
-        protected byte[] FinalData;
-        
-        /// <summary>
-        /// GainPercentage represents the gain in percentage of doing the compression.
-        /// It is calculated by dividing initialData's length by finaldata's length
-        /// </summary>
-        private double _gainPercentage;
-
-        /// <summary>
-        /// Retuns the gain percentage of doing this algorithm after actual doing the compression
-        /// </summary>
-        /// <returns>-1 in case of finalData is not yet defined or gain percentage otherwise</returns>
-        public double GetGainPercentage()
+        /// <param name="data">Data that needs to be compressed.</param>
+        /// <param name="compressionAlgorithm">The desired algorithm to compress the data.</param>
+        /// <returns>An array of bytes resulting from the compression.</returns>
+        public static byte[] DataCompression(string data, Misc.CompressionAlgorithm compressionAlgorithm)
         {
-            if (FinalData == null)
-                return -1;
-            else {
-                _gainPercentage = 100 * FinalData.Length / InitialData.Length ;
+            switch (compressionAlgorithm)
+            {
+                case Misc.CompressionAlgorithm.L4Z:
+                    return L4ZCompression(data);
+                case Misc.CompressionAlgorithm.Deflate:
+                    return DeflateCompression(data);
+                case Misc.CompressionAlgorithm.Gzip:
+                default:
+                    return GzipCompression(data);
             }
-
-            return _gainPercentage;
         }
 
+
         /// <summary>
-        /// Function that is implemented by child classes in order to compress the member "initial data"
+        /// Function responsible for compressing a string passed as argument into an array of bytes using L4Z algorithm.
         /// </summary>
-        /// <returns>A sequence of bytes </returns>
-        public abstract byte[] CompressData();
-        
-        /// <summary>
-        /// Function responsible for converting a sequence of bytes that represents a compressed data into uncomprompressed data
-        /// </summary>
-        /// <param name="toDecode"></param>
-        /// <returns></returns>
-        public abstract string DecompressData(byte[] toDecode);
-        
-        /// <summary>
-        /// Override function to print compressed data into a readable string
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
+        /// <param name="data">The string to be compressed.</param>
+        /// <returns>An array resulting from the compression.</returns>
+        private static byte[] L4ZCompression(string data)
         {
-            return "Data: " + Convert.ToBase64String(this.FinalData);
-        }
+            MemoryStream memOut = new MemoryStream();
+            LZ4Stream lz4Strm = new LZ4Stream(memOut, LZ4StreamMode.Compress);
+            StreamWriter inputData = new StreamWriter(lz4Strm, Encoding.UTF8);
 
+            inputData.Write(data);
 
-        public string GetStatistics()
-        {
-            return "Converted \"" + this.InitialData + "\" to \"" + Convert.ToBase64String(this.FinalData) + "\" with a gain of " + GetGainPercentage() + "%.";
-        }
+            inputData.Dispose();
+            lz4Strm.Dispose();
 
-    }
+            byte[] compressedData = memOut.ToArray();
+            memOut.Dispose();
 
-    /// <summary>
-    /// Class responsible for compression and decompressing text using GZIP
-    /// </summary>
-    public class GZIP : Compression
-    {
-        /// <summary>
-        /// Constructor that initializes only the data to compress
-        /// </summary>
-        /// <param name="data">String representing the data to compress</param>
-        public GZIP(string data)
-        {
-            InitialData = data;
+            return compressedData;
         }
 
         /// <summary>
-        /// Function that converts the data passed in the constructor's argument
+        /// Function responsible for compressing a string passed as argument into an array of bytes using Deflate algorithm.
         /// </summary>
-        /// <returns>A sequence of bytes representing the compressed data</returns>
-        public override byte[] CompressData()
+        /// <param name="data">The string to be compressed.</param>
+        /// <returns>An array resulting from the compression.</returns>
+        private static byte[] DeflateCompression(string data)
+        {
+            MemoryStream memOut = new MemoryStream();
+            DeflateStream compressionStream = new DeflateStream(memOut, CompressionMode.Compress);
+            StreamWriter writingStream = new StreamWriter(compressionStream, System.Text.Encoding.UTF8);
+
+            writingStream.Write(data);
+
+            writingStream.Close();
+            compressionStream.Close();
+
+            byte[] compressedData = memOut.ToArray();
+
+            return compressedData;
+        }
+
+        /// <summary>
+        /// Function responsible for compressing a string passed as argument into an array of bytes using Gzip algorithm.
+        /// </summary>
+        /// <param name="data">The string to be compressed.</param>
+        /// <returns>An array resulting from the compression.</returns>
+        private static byte[] GzipCompression(string data)
         {
             MemoryStream memOut = new MemoryStream();
             GZipStream compressionStream = new GZipStream(memOut, CompressionMode.Compress);
             StreamWriter writingStream = new StreamWriter(compressionStream, System.Text.Encoding.UTF8);
 
-            writingStream.Write(InitialData);
+            writingStream.Write(data);
 
             writingStream.Close();
             compressionStream.Close();
 
-            FinalData = memOut.ToArray();
+            byte[] compressedData = memOut.ToArray();
 
-            return FinalData;
+            return compressedData;
+        }
+
+
+        /// <summary>
+        /// Function responsible for decompressing an array of bytes passed as argument into a string.
+        /// </summary>
+        /// <param name="data">Data that needs to be decompressed.</param>
+        /// <param name="decompressionAlgorithm">The desired algorithm to decompress the data.</param>
+        /// <returns>A string resulting from the decompressing.</returns>
+        public static string DecompressData(byte[] data, Misc.CompressionAlgorithm decompressionAlgorithm)
+        {
+            switch (decompressionAlgorithm)
+            {
+                case Misc.CompressionAlgorithm.L4Z:
+                    return L4ZDecompression(data);
+                case Misc.CompressionAlgorithm.Deflate:
+                    return DeflateDecompression(data);
+                case Misc.CompressionAlgorithm.Gzip:
+                default:
+                    return GzipDecompression(data);
+            }
         }
 
         /// <summary>
-        /// Function responsible for decompress data passed as argument
+        /// Function responsible for decompressing an array of bytes passed as argument into a string using L4Z algorithm.
         /// </summary>
-        /// <param name="toDecode">A sequence of bytes</param>
-        /// <returns>Data umcompressed</returns>
-        public override string DecompressData(byte[] toDecode)
+        /// <param name="data">The byte array to be decompressed.</param>
+        /// <returns>A string resulting from the compression.</returns>
+        private static string L4ZDecompression(byte[] data)
         {
-
-            MemoryStream compressedData = new MemoryStream(toDecode);
-            GZipStream defStream = new GZipStream(compressedData, CompressionMode.Decompress);
-            StreamReader readingStream = new StreamReader(defStream, System.Text.Encoding.UTF8);
-
-            InitialData = readingStream.ReadToEnd();
-
-            readingStream.Dispose();
-            defStream.Dispose();
-            compressedData.Dispose();
-
-            return InitialData;
-        }
-    }
-
-    /// <summary>
-    /// Class responsible for compression and decompressing text using Deflate
-    /// </summary>
-    public class Deflate : Compression
-    {
-        /// <summary>
-        /// Constructor that initializes only the data to compress
-        /// </summary>
-        /// <param name="data">String representing the data to compress</param>
-        public Deflate(string data)
-        {
-            InitialData = data;
-        }
-
-        /// <summary>
-        /// Function that converts the data passed in the constructor's argument
-        /// </summary>
-        /// <returns>A sequence of bytes representing the compressed data</returns>
-        public override byte[] CompressData()
-        {
-
-            MemoryStream memOut = new MemoryStream();
-            DeflateStream compressionStream = new DeflateStream(memOut, CompressionMode.Compress);
-            StreamWriter writingStream = new StreamWriter(compressionStream, System.Text.Encoding.UTF8);
-
-            writingStream.Write(InitialData);
-
-            writingStream.Close();
-            compressionStream.Close();
-
-            FinalData = memOut.ToArray();
-
-            return FinalData;
-
-        }
-
-        /// <summary>
-        /// Function responsible for decompress data passed as argument
-        /// </summary>
-        /// <param name="toDecode"></param>
-        /// <returns>Data umcompressed</returns>
-        public override string DecompressData(byte[] toDecode)
-        {
-            MemoryStream compressedData = new MemoryStream(toDecode);
-            DeflateStream defStream = new DeflateStream(compressedData, 
-                                                        CompressionMode.Decompress);
-            StreamReader readingStream = new StreamReader(defStream, 
-                                                          Encoding.UTF8);
-
-            InitialData = readingStream.ReadToEnd();
-
-            readingStream.Dispose();
-            defStream.Dispose();
-            compressedData.Dispose();
-
-            return InitialData;
-        }
-    }
-
-    /// <summary>
-    /// Class responsible for compression and decompressing text using Lz4
-    /// </summary>
-    public class Lz4 : Compression 
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:m0ch.Utils.Lz4"/> class.
-        /// </summary>
-        /// <param name="data">Text to be compressed</param>
-        public Lz4(string data)
-        {
-            this.InitialData = data;
-        }
-
-        /// <summary>
-        /// Function that converts the data passed in the constructor's argument
-        /// </summary>
-        /// <returns>A sequence of bytes representing the compressed data</returns>
-        public override byte[] CompressData()
-        {
-
-            MemoryStream memOut = new MemoryStream();
-            LZ4Stream lz4Strm = new LZ4Stream(memOut, LZ4StreamMode.Compress);
-            StreamWriter inputData = new StreamWriter(lz4Strm, Encoding.UTF8);
-
-            inputData.Write(InitialData);
-
-            inputData.Dispose();
-            lz4Strm.Dispose();
-
-            FinalData = memOut.ToArray();
-            memOut.Dispose();
-            return FinalData;
-
-        }
-
-        /// <summary>
-        /// Function responsible for decompress data passed as argument
-        /// </summary>
-        /// <returns>The data compressed</returns>
-        /// <param name="toDecode">Data decompressed</param>
-        public override string DecompressData(byte[] toDecode)
-        {
-
-            MemoryStream memIn = new MemoryStream(toDecode);
+            MemoryStream memIn = new MemoryStream(data);
             LZ4Stream lz4Strm = new LZ4Stream(memIn, LZ4StreamMode.Decompress);
             StreamReader outData = new StreamReader(lz4Strm);
 
-            InitialData = outData.ReadToEnd();
+            string decompressedData = outData.ReadToEnd();
 
             outData.Dispose();
             lz4Strm.Dispose();
             memIn.Dispose();
 
-            return InitialData;
+            return decompressedData;
         }
 
+        /// <summary>
+        /// Function responsible for decompressing an array of bytes passed as argument into a string using L4Z algorithm.
+        /// </summary>
+        /// <param name="data">The byte array to be decompressed.</param>
+        /// <returns>A string resulting from the compression.</returns>
+        private static string DeflateDecompression(byte[] data)
+        {
+            MemoryStream compressedData = new MemoryStream(data);
+            DeflateStream defStream = new DeflateStream(compressedData, CompressionMode.Decompress);
+            StreamReader readingStream = new StreamReader(defStream, Encoding.UTF8);
+
+            string decompressedData = readingStream.ReadToEnd();
+
+            readingStream.Dispose();
+            defStream.Dispose();
+            compressedData.Dispose();
+
+            return decompressedData;
+        }
+
+        /// <summary>
+        /// Function responsible for decompressing an array of bytes passed as argument into a string using L4Z algorithm.
+        /// </summary>
+        /// <param name="data">The byte array to be decompressed.</param>
+        /// <returns>A string resulting from the compression.</returns>
+        private static string GzipDecompression(byte[] data)
+        {
+            MemoryStream compressedData = new MemoryStream(data);
+            GZipStream defStream = new GZipStream(compressedData, CompressionMode.Decompress);
+            StreamReader readingStream = new StreamReader(defStream, System.Text.Encoding.UTF8);
+
+            string decompressedData = readingStream.ReadToEnd();
+
+            readingStream.Dispose();
+            defStream.Dispose();
+            compressedData.Dispose();
+
+            return decompressedData;
+        }
 
     }
 }

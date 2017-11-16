@@ -90,7 +90,7 @@ namespace m0ch.Network
         public void CastMessage(byte[] data){
 
             // Not considering other algorithms other than GZIP for now
-            string toDecompress = new GZIP("").DecompressData(data);
+            string toDecompress = Compression.DecompressData(data, Misc.CompressionAlgorithm.Gzip);
 
             Console.WriteLine(toDecompress);
         }
