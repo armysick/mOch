@@ -90,7 +90,7 @@ namespace m0ch.Utils
                 }
                 catch (Exception ex)
                 {
-                    LoggerObj.Error("On parsing data present in " + FILENAME + "." + ex);
+                    LoggerObj.Error("On parsing data present in " + FILENAME);
                     return false;
                 }
             }
