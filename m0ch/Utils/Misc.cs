@@ -7,8 +7,13 @@ namespace m0ch.Utils
         /// <summary>
         /// Possible types of operating system
         /// </summary>
-        public enum OperatingSystem { Unix, Windows, Default };
-
+        public enum OperatingSystem
+        {
+            Unix,
+            Windows,
+            Default
+        }
+        
         /// <summary>
         /// Detectes the operating system that is running on the current machine
         /// </summary>
