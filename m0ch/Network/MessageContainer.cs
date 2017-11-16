@@ -8,7 +8,6 @@ namespace m0ch.Network
     /// </summary>
     public class MessageContainer
     {
-        
         /// <summary>
         /// Stored Message.
         /// </summary>

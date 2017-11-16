@@ -54,7 +54,7 @@ namespace m0ch.Network
                 TcpClient incomingMessage = _svPort.AcceptTcpClient();
                 NetworkStream sn = incomingMessage.GetStream();
                 
-                LoggerObj.Trace("Server received new message.");
+                LoggerObj.Debug("Server received new message.");
                 
                 if (sn.CanRead){
                     byte[] data = new byte[incomingMessage.ReceiveBufferSize];
@@ -63,7 +63,7 @@ namespace m0ch.Network
 
                     //castMessage(data);
                     this._inbox.Enqueue(data);
-                    LoggerObj.Trace("Server stored received data.");
+                    LoggerObj.Debug("Server stored received data.");
                 }
 
                 sn.Close();
