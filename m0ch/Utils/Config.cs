@@ -38,7 +38,7 @@ namespace m0ch.Utils
     /// </summary>
     public class AgentPlatformConfig : Config
     {
-        private static readonly string FILENAME = "PLATFORMCONFIG.ini";
+        private static readonly string FILENAME = "platoform.ini";
 
         /// <summary>
         /// Represents the host domain of the platform.
@@ -147,7 +147,7 @@ namespace m0ch.Utils
         /// <summary>
         /// Variable that holds the filename where the configurations are made.
         /// </summary>
-        private static readonly string FILENAME = "AGENTCONFIG.ini";
+        private static readonly string FILENAME = "agent.ini";
 
         /// <summary>
         /// Name to be used as AID's name.
