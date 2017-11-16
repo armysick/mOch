@@ -13,7 +13,7 @@ namespace m0ch.Utils
     {
 
         /// <summary>
-        /// Stores if the actual 
+        /// Stores the initial CompressionMode.
         /// </summary>
         protected CompressionMode CompressionMd;
         
