@@ -17,7 +17,7 @@ namespace m0ch.Utils
         /// <param name="data">Data that needs to be compressed.</param>
         /// <param name="compressionAlgorithm">The desired algorithm to compress the data.</param>
         /// <returns>An array of bytes resulting from the compression.</returns>
-        public byte[] DataCompression(string data, Misc.CompressionAlgorithm compressionAlgorithm)
+        public static byte[] DataCompression(string data, Misc.CompressionAlgorithm compressionAlgorithm)
         {
             switch (compressionAlgorithm)
             {
@@ -103,17 +103,17 @@ namespace m0ch.Utils
         /// <param name="data">Data that needs to be decompressed.</param>
         /// <param name="decompressionAlgorithm">The desired algorithm to decompress the data.</param>
         /// <returns>A string resulting from the decompressing.</returns>
-        public string DecompressData(byte[] data, Misc.CompressionAlgorithm decompressionAlgorithm)
+        public static string DecompressData(byte[] data, Misc.CompressionAlgorithm decompressionAlgorithm)
         {
             switch (decompressionAlgorithm)
             {
                 case Misc.CompressionAlgorithm.L4Z:
                     return L4ZDecompression(data);
                 case Misc.CompressionAlgorithm.Deflate:
-                    return DeflateCompression(data);
+                    return DeflateDecompression(data);
                 case Misc.CompressionAlgorithm.Gzip:
                 default:
-                    return GzipCompression(data);
+                    return GzipDecompression(data);
             }
         }
 
