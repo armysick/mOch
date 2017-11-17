@@ -2,4 +2,4 @@ language: csharp
 solution: m0ch.sln
 script:
   - xbuild /p:Configuration=Release m0ch.sln
-  - mono ./packages/xunit.runners.*/tools/xunit.console.clr4.exe ./m0chTests/bin/Release/m0chTests.dll
+  - mono ./packages/xunit.runners.2.1.0/tools/xunit.console.clr4.exe ./m0chTests/bin/Release/m0chTests.dll
