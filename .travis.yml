@@ -4,5 +4,5 @@ install:
   - nuget restore m0ch.sln
   - nuget install NUnit.Runners -Version 3.7.0 -OutputDirectory testrunner
 script:
-  - xbuild /p:Configuration=Release Travis.sln
+  - xbuild /p:Configuration=Release m0ch.sln
   - mono ./testrunner/NUnit.Runners.3.7.0/tools/nunit-console.exe ./m0chTests/bin/Release/m0chTests.dll
