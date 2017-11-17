@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
@@ -19,6 +20,10 @@ namespace m0ch.Utils
         /// <returns>An array of bytes resulting from the compression.</returns>
         public static byte[] DataCompression(string data, Misc.CompressionAlgorithm compressionAlgorithm)
         {
+
+            if (data == null)
+                throw new ArgumentNullException();
+            
             switch (compressionAlgorithm)
             {
                 case Misc.CompressionAlgorithm.L4Z:
@@ -105,6 +110,10 @@ namespace m0ch.Utils
         /// <returns>A string resulting from the decompressing.</returns>
         public static string DecompressData(byte[] data, Misc.CompressionAlgorithm decompressionAlgorithm)
         {
+            
+            if (data == null)
+                throw new ArgumentNullException();
+            
             switch (decompressionAlgorithm)
             {
                 case Misc.CompressionAlgorithm.L4Z:
