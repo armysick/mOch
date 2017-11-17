@@ -1,15 +1,15 @@
 ﻿using System;
 using m0ch.Utils;
-using Xunit;
+using NUnit.Framework;
 
 namespace m0chTests.Utils
 {
+    [TestFixture]
     public class Compression
     {
+        private const string SmallString = "A small phase just to try compression";
 
-        private static string SmallString = "A small phase just to try compression";
-
-        [Fact]
+        [Test]
         public void COMPRESSION_NULL_STRING()
         {
             Assert.Throws<ArgumentNullException>(() =>
@@ -18,7 +18,7 @@ namespace m0chTests.Utils
             });
         }
         
-        [Fact]
+        [Test]
         public void DECOMPRESSION_NULL_STRING()
         {
             Assert.Throws<ArgumentNullException>(() =>
@@ -27,7 +27,7 @@ namespace m0chTests.Utils
             });
         }
 
-        [Fact]
+        [Test]
         public void GZIP_COMPRESSION_AND_DECOMPRESSION()
         {
             var compressedData = m0ch.Utils.Compression.DataCompression(SmallString, Misc.CompressionAlgorithm.Gzip);
@@ -35,10 +35,10 @@ namespace m0chTests.Utils
             var decompressedData =
                 m0ch.Utils.Compression.DecompressData(compressedData, Misc.CompressionAlgorithm.Gzip);
 
-            Assert.Equal(decompressedData, SmallString);
+            Assert.AreEqual(decompressedData, SmallString);
         }
         
-        [Fact]
+        [Test]
         public void GZIP_COMPRESSION_SIZE()
         {
             var compressedData = m0ch.Utils.Compression.DataCompression(SmallString, Misc.CompressionAlgorithm.Gzip);
@@ -47,7 +47,7 @@ namespace m0chTests.Utils
             Assert.True(compressedData.ToString().Length < SmallString.Length);
         }
         
-        [Fact]
+        [Test]
         public void DEFLATE_COMPRESSION_AND_DECOMPRESSION()
         {
             var compressedData = m0ch.Utils.Compression.DataCompression(SmallString, Misc.CompressionAlgorithm.Deflate);
@@ -55,10 +55,10 @@ namespace m0chTests.Utils
             var decompressedData =
                 m0ch.Utils.Compression.DecompressData(compressedData, Misc.CompressionAlgorithm.Deflate);
 
-            Assert.Equal(decompressedData, SmallString);
+            Assert.AreEqual(decompressedData, SmallString);
         }
         
-        [Fact]
+        [Test]
         public void DEFLATE_COMPRESSION_SIZE()
         {
             var compressedData = m0ch.Utils.Compression.DataCompression(SmallString, Misc.CompressionAlgorithm.Deflate);
@@ -67,7 +67,7 @@ namespace m0chTests.Utils
             Assert.True(compressedData.ToString().Length < SmallString.Length);
         }
         
-        [Fact]
+        [Test]
         public void L4Z_COMPRESSION_AND_DECOMPRESSION()
         {
             var compressedData = m0ch.Utils.Compression.DataCompression(SmallString, Misc.CompressionAlgorithm.L4Z);
@@ -75,10 +75,10 @@ namespace m0chTests.Utils
             var decompressedData =
                 m0ch.Utils.Compression.DecompressData(compressedData, Misc.CompressionAlgorithm.L4Z);
 
-            Assert.Equal(decompressedData, SmallString);
+            Assert.AreEqual(decompressedData, SmallString);
         }
         
-        [Fact]
+        [Test]
         public void L4Z_COMPRESSION_SIZE()
         {
             var compressedData = m0ch.Utils.Compression.DataCompression(SmallString, Misc.CompressionAlgorithm.L4Z);

@@ -1,5 +1,8 @@
 language: csharp
 solution: m0ch.sln
+install:
+  - nuget restore m0ch.sln
+  - nuget install NUnit.Runners -Version 3.7.0 -OutputDirectory testrunner
 script:
-  - xbuild /p:Configuration=Release m0ch.sln
-  - mono ./packages/xunit.runner.console.2.3.1/tools/xunit.console.clr4.exe ./m0chTests/bin/Release/m0chTests.dll
+  - xbuild /p:Configuration=Release Travis.sln
+  - mono ./testrunner/NUnit.Runners.3.7.0/tools/nunit-console.exe ./m0chTests/bin/Release/m0chTests.dll
