@@ -1,7 +1,6 @@
 ﻿using System;
 using m0ch.Utils;
 using Xunit;
-using Xunit.Sdk;
 
 namespace m0chTests.Utils
 {
